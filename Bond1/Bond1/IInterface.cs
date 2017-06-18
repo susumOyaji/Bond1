@@ -4,23 +4,22 @@ using System.Threading.Tasks;
 
 namespace Bond1
 {
-    public interface IUdpReceiveSocket
+    public interface ClientSocket
     {
         Task createReceiveUdpSocket();
-        //void sendBroadcast();
-        //void returnIpAdress(string address);
-        //void createReceiveUdpSocket();
-        //void createReceiveTcpSocket();
+        Task WaitToGuestConnect();
+        void returnIpAdress(String address);
+
+      
     }
 
-    public interface ITcpSocket
+    public interface GuestSocket
     {
-        void connect();
-        void ConnectEnable();
+        void sendBroadcast();
+        void receivedHostIp();
         //void inputDeviceNameAndIp(Socket socket);
-        //void Connect(string remoteIpAddress);
-
-        Task createReceiveTcpSocket();
+        void HostToConnect(String remoteIpAddress);
+            
 
        
     }

@@ -21,7 +21,7 @@ using Bond1.Droid;
 [assembly: Xamarin.Forms.Dependency(typeof(SocketLib_Droid))]
 namespace Bond1.Droid
 {
-    public class SocketLib_Droid : IUdpReceiveSocket
+    public class SocketLib_Droid : ClientSocket
     {
         DatagramSocket receiveUdpSocket;
         bool waiting = false;
@@ -84,14 +84,14 @@ namespace Bond1.Droid
         int tcpPort = 3333;//ホスト、ゲストで統一  
 
         //ゲストからの接続を待つ処理  
-        void WaitToGuestConnect()
+        public async Task WaitToGuestConnect()
         {
             try
             {
                 //ServerSocketを生成する
                 serverSocket = new ServerSocket(tcpPort);
                 //ゲストからの接続が完了するまで待って処理を進める 
-                connectedSocket = serverSocket.Accept();
+                connectedSocket = await Task.Run(() => serverSocket.Accept());
                 //この後はconnectedSocketに対してInputStreamやOutputStreamを用いて入出力を行ったりするが、ここでは割愛      
             }
             catch (SocketException e)
@@ -119,7 +119,7 @@ namespace Bond1.Droid
         //int udpPort = 9999;//ホスト、ゲストで統一  
 
         //同一Wi-fiに接続している全端末に対してブロードキャスト送信を行う 
-        void sendBroadcast()
+        public void sendBroadcast()
         {
             String myIpAddress = getIpAddress();
             waiting = true;
@@ -171,14 +171,25 @@ namespace Bond1.Droid
         WifiManager wifi;
         string ipAddress = null;
         /*コンストラクタ*/
-        public void Sample_WifiConnection(Context context)
-        {
-            wifi = (WifiManager)context.GetSystemService(Context.WifiService);
-        }
+        //public void Sample_WifiConnection(Context context)
+        //{
+        //    wifi = (WifiManager)context.GetSystemService(Context.WifiService);
+        //}
 
         //IPアドレスの取得  
         String getIpAddress()
         {
+            WifiConfiguration wifiConfig = new WifiConfiguration();
+            wifi = (WifiManager)Application.Context.GetSystemService(Context.WifiService);
+            WifiInfo wifiinfo = (WifiInfo)Application.Context.GetSystemService(Context.WifiService);
+
+            //int netId = WifiManager.AddNetwork(wifiConfig);
+            wifi.Disconnect();
+            //wifi.EnableNetwork(netId, true);
+            wifi.Reconnect();
+            int iPAddress = wifiinfo.IpAddress;
+            //return iPAddress;
+
             int ipAddress_int = wifi.ConnectionInfo.IpAddress;
             if (ipAddress_int == 0)
             {
@@ -218,7 +229,7 @@ namespace Bond1.Droid
         次に、ホストからTCP通信でIPアドレスが返されてくるので、受け取るための待ち受け状態を作っておきます。
         */
         //ホストからTCPでIPアドレスが返ってきたときに受け取るメソッド  
-        void receivedHostIp()
+        public void receivedHostIp()
         {
             ServerSocket serverSocket = null;
             Socket socket = null;
@@ -273,7 +284,7 @@ namespace Bond1.Droid
 
         Socket returnSocket;
         //ブロードキャスト発信者(ゲスト)にIPアドレスと端末名を返す   
-        void returnIpAdress(String address)
+        public void returnIpAdress(String address)
         {
 
             try
@@ -368,7 +379,7 @@ namespace Bond1.Droid
         このメソッドはIPアドレスと端末名を取得して保持するために用意しています。
         */
         //端末名とIPアドレスのセットを受け取る   
-        void inputDeviceNameAndIp(Socket socket)
+        public void inputDeviceNameAndIp(Socket socket)
         {
             try
             {
@@ -421,7 +432,7 @@ namespace Bond1.Droid
         ゲスト端末でホストのIPアドレスを入手することが出来たので、あとはTCP通信を試みるだけです。
         */
         //IPアドレスが判明したホストに対して接続を行う   
-        void HostToConnect(String remoteIpAddress)
+        public void HostToConnect(String remoteIpAddress)
         {
             waiting = false;
             Socket socket = null;
