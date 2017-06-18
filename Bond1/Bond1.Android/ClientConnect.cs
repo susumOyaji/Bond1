@@ -1,10 +1,12 @@
 ﻿
 using System;
-
+using System.Threading.Tasks;
+      
 using Android.OS;
 using Java.IO;
 using Java.Net;
 //using Android.OS;
+using Bond1.Droid;
 
 
 
@@ -29,26 +31,29 @@ returnIpAdress(address);
 処理はこんな感じです。
 */
 
-
+[assembly: Xamarin.Forms.Dependency(typeof(ClientConnect))]
 //Server 
 namespace Bond1.Droid
 {
-    public class ClientConnect :TcpSocket
+    public class SocketLib_Droid : ICreateReceiveSocket,ITcpSocket
     {
+       
         DatagramSocket receiveUdpSocket;
         bool waiting;
         int udpPort = 9999;//ホスト、ゲストで統一  
 
      
 
-        /// <summary>
-        /// ブロードキャスト受信用ソケットの生成,ブロードキャスト受信待ち状態を作る  
+        /// <summary>Udp
+        /// ①ブロードキャスト受信用ソケットの生成,
+        ///   ブロードキャスト受信待ち状態を作る  
         /// </summary>
-        async void createReceiveUdpSocket()
+        public async Task createReceiveUdpSocket()
         {
             waiting = true;
             string address = null;
 
+           
             try
             {
                 //waiting = trueの間、ブロードキャストを受け取る
@@ -59,9 +64,10 @@ namespace Bond1.Droid
                     byte[] buf = new byte[256];
                     DatagramPacket packet = new DatagramPacket(buf, buf.Length);
 
+                    //await Task.Run(
                     //ゲスト端末からのブロードキャストを受け取る  
                     //受け取るまでは待ち状態になる   
-                    receiveUdpSocket.Receive(packet);
+                    await Task.Run(() => receiveUdpSocket.Receive(packet));
 
                     //受信バイト数取得 
                     //int length = packet.getLength();
@@ -73,6 +79,7 @@ namespace Bond1.Droid
                     //↓③で使用  
                     returnIpAdress(address);
                     receiveUdpSocket.Close();
+                    //);
                 }
             }
             catch (SocketException e)
@@ -83,6 +90,7 @@ namespace Bond1.Droid
             {
                 e.PrintStackTrace();
             }
+
         }
 
 
@@ -95,10 +103,10 @@ namespace Bond1.Droid
         int tcpPort = 3333;//ホスト、ゲストで統一  
 
         
-        /// <summary>
-        /// ゲストからの接続を待つ処理 
+        /// <summary>Tcp
+        /// ①ゲストからの接続を待つ処理 
         /// </summary>
-        async void connect()
+        public async Task createReceiveTcpSocket()
         {
             try
             {
@@ -106,7 +114,7 @@ namespace Bond1.Droid
                 serverSocket = new ServerSocket(tcpPort);
 
                 //ゲストからの接続が完了するまで待って処理を進める 
-                connectedSocket = serverSocket.Accept();
+                connectedSocket = await Task.Run(() => serverSocket.Accept());
                 //この後はconnectedSocketに対してInputStreamやOutputStreamを用いて入出力を行ったりするが、ここでは割愛      
             }
             catch (SocketException e)
@@ -131,11 +139,11 @@ namespace Bond1.Droid
 
 
         
-        /// <summary>
+        /// <summary> Tcp
         /// ブロードキャスト発信者(ゲスト)にIPアドレスと端末名を返す
         /// </summary>
         /// <param name="address"></param>
-        async void returnIpAdress(string address)
+        public void returnIpAdress(string address)
         {
             Socket returnSocket = null;
 
@@ -178,10 +186,10 @@ namespace Bond1.Droid
             {
                 e.PrintStackTrace();
             }
-
+                   
         }
 
-        /// <summary>
+        /// <summary>Tcp
         /// Gets the name of the device.
         /// </summary>
         /// <returns>The device name.</returns>
@@ -194,7 +202,7 @@ namespace Bond1.Droid
         }
 
 
-        /// <summary>
+        /// <summary>Tcp
         /// Gets the ip address.
         /// </summary>
         /// <returns>The ip address.</returns>
@@ -204,14 +212,14 @@ namespace Bond1.Droid
             return IpAddress;
         }
 
-        /// <summary>
+        /// <summary>Tcp
         /// Outputs the device name and ip.
         /// 端末名とIPアドレスのセットをゲストに送る  
         /// </summary>
         /// <param name="outputSocket">Output socket.</param>
         /// <param name="deviceName">Device name.</param>
         /// <param name="deviceAddress">Device address.</param>
-        async void outputDeviceNameAndIp(Socket outputSocket, String deviceName, String deviceAddress)
+        void outputDeviceNameAndIp(Socket outputSocket, String deviceName, String deviceAddress)
         {
             BufferedWriter bufferedWriter;
             try

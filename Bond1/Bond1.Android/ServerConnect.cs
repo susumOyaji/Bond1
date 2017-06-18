@@ -9,6 +9,9 @@ using Java.IO;
 using Java.Net;
 using Android.Net.Wifi;
 using Android.Net;
+
+using Bond1.Droid;
+
 //using Android.Net.Wifi.WifiInfo;
 //using Android.Net.Wifi.WifiManager;
 
@@ -27,22 +30,22 @@ using Android.Net;
 //⑤ゲスト：ホストのIPアドレスが判明して、TCP通信を開始する。
 //ゲスト端末でホストのIPアドレスを入手することが出来たので、あとはTCP通信を試みるだけです。
 
-
+[assembly: Xamarin.Forms.Dependency(typeof(ServerConnect))]
 // Client
 namespace Bond1.Droid
 {
-    [Activity(Label = "WaitReceiv")]
-    public class ServerConnect: UdpSocket
+    //[Activity(Label = "WaitReceiv")]
+    public class ServerConnect: ITcpSocket
     {
         bool waiting;
         int udpPort = 9999;//ホスト、ゲストで統一  
         int tcpPort = 3333;
 
         
-        /// <summary>
+        /// <summary>Udp
         /// 同一Wi-fiに接続している全端末に対してブロードキャスト送信を行う
         /// </summary>
-        async void sendBroadcast()
+        void sendBroadcast()
         {
             string myIpAddress = getIpAddress();
             int count = 0;
@@ -125,7 +128,7 @@ namespace Bond1.Droid
 
 
         
-        /// <summary>
+        /// <summary>Udp
         /// ブロードキャストアドレスの取得
         /// </summary>
         /// <returns></returns>
@@ -158,7 +161,7 @@ namespace Bond1.Droid
       
 
 
-        /// <summary>
+        /// <summary>Udp
         /// 
         /// </summary>
         /// <returns></returns>
@@ -198,8 +201,8 @@ namespace Bond1.Droid
 
 
         //次に、ホストからTCP通信でIPアドレスが返されてくるので、受け取るための待ち受け状態を作っておきます。
-
-        //ホストからTCPでIPアドレスが返ってきたときに受け取るメソッド  
+        //ホストからTCPでIPアドレスが返ってきたときに受け取るメソッド
+        ///Tcp  
         void receivedHostIp()
         {
             ServerSocket serverSocket = null;
@@ -250,8 +253,8 @@ namespace Bond1.Droid
         //inputDeviceNameAndIp(socket);
         //このメソッドはIPアドレスと端末名を取得して保持するために用意しています。
 
-        //端末名とIPアドレスのセットを受け取る
-        async void inputDeviceNameAndIp(Socket socket)
+        //端末名とIPアドレスのセットを受け取る    Tcp
+        void inputDeviceNameAndIp(Socket socket)
         {
             try
             {
@@ -297,7 +300,7 @@ namespace Bond1.Droid
         // ⑤ゲスト：ホストのIPアドレスが判明して、TCP通信を開始する。
         //ゲスト端末でホストのIPアドレスを入手することが出来たので、あとはTCP通信を試みるだけです。
         //IPアドレスが判明したホストに対して接続を行う       
-        async void connect(String remoteIpAddress)
+        void connect(String remoteIpAddress) Tcp
         {
             waiting = false;
             Socket socket = null;
