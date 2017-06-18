@@ -10,16 +10,18 @@ using Java.IO;
 using Java.Net;
 using Android.Net.Wifi;
 using Android.Net;
-
+using Bond1.Droid;
 /*
 ---------------------------------------------      ①UDP - Host Receive    ---------------------------
 ①ホスト：ゲストから発信されるブロードキャストを受信できる(受信待ち受け)状態にする。
 ゲストからいくらブロードキャスト送信をしていても、ホスト側で受け取り態勢が整っていなければ受け取ることが出来ません。
 まずはゲストが送信を開始する前に待ち受け状態にします。
 */
-namespace Bond1
+
+[assembly: Xamarin.Forms.Dependency(typeof(SocketLib_Droid))]
+namespace Bond1.Droid
 {
-    public class SocketLib_Droid
+    public class SocketLib_Droid : IUdpReceiveSocket
     {
         DatagramSocket receiveUdpSocket;
         bool waiting = false;
@@ -27,7 +29,7 @@ namespace Bond1
 
         //ブロードキャスト受信用ソケットの生成   
         //ブロードキャスト受信待ち状態を作る  
-        public void createReceiveUdpSocket()
+        public async Task createReceiveUdpSocket()
         {
             waiting = true;
             String address = null;
@@ -41,9 +43,11 @@ namespace Bond1
                     DatagramSocket receiveUdpSocket = new DatagramSocket(udpPort);
                     byte[] buf = new byte[256];
                     DatagramPacket packet = new DatagramPacket(buf, buf.Length);
+
                     //ゲスト端末からのブロードキャストを受け取る  
                     //受け取るまでは待ち状態になる   
-                    receiveUdpSocket.Receive(packet);
+                    await Task.Run(() => receiveUdpSocket.Receive(packet));
+
                     //受信バイト数取得 
                     int length = packet.Length;
                     //受け取ったパケットを文字列にする 

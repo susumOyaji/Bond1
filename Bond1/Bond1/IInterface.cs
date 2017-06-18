@@ -7,8 +7,8 @@ namespace Bond1
     public interface IUdpReceiveSocket
     {
         Task createReceiveUdpSocket();
-        void sendBroadcast();
-        void returnIpAdress(string address);
+        //void sendBroadcast();
+        //void returnIpAdress(string address);
         //void createReceiveUdpSocket();
         //void createReceiveTcpSocket();
     }
