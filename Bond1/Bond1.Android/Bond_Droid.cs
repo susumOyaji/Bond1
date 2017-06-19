@@ -265,7 +265,41 @@ namespace Bond1.Droid
         }
 
 
+        /// <summary>
+        /// Sample
+        /// </summary>
+        /// <returns></returns>
+        public String GetHostName()
+        {
+            return Dns.GetHostName();
+        }
 
+       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string GetIPAddress()
+        {
+            string strLocalHostName = Dns.GetHostName();
+            IPHostEntry LocalHost = Dns.GetHostEntry(strLocalHostName);
+            try
+            {
+                for (int i = 0; i < LocalHost.AddressList.Length; i++)
+                {
+                    if (LocalHost.AddressList[i].AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        return LocalHost.AddressList[i].ToString();
+                    }
+                }
+                return "";
+            }
+            catch (IOException e)
+            {
+               e.PrintStackTrace();
+            }
+            return "";
+        }
 
 
         /*
@@ -282,10 +316,11 @@ namespace Bond1.Droid
         */
 
 
-        Socket returnSocket;
+
         //ブロードキャスト発信者(ゲスト)にIPアドレスと端末名を返す   
         public void returnIpAdress(String address)
         {
+            Socket returnSocket = null;
 
             try
             {
@@ -298,7 +333,7 @@ namespace Bond1.Droid
                 {
                     returnSocket = new Socket(address, tcpPort);
                 }
-                //端末情報をゲストに送り返す  
+                //端末情報をホスト／ゲストに送り返す  
                 outputDeviceNameAndIp(returnSocket, getdeviceName(), getIpAddress());
             }
             catch (UnknownHostException e)

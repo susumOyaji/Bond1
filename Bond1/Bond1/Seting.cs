@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+
 using Xamarin.Forms;
 
 
@@ -10,7 +12,6 @@ namespace Bond1
 
         public Seting()
         {
-
             Padding = new Thickness(5, Device.OnPlatform(30, 10, 10), 10, 10);
             DateTime time = DateTime.Now;//new System.DateTime("yyyy", 1, 1, 0, 0, 0, 0);
 
@@ -32,10 +33,18 @@ namespace Bond1
             };
             Content = Date;
         }
-
+                
         public Seting(ContentPage content)
         {
             this.content = content;
         }
+                   
     }
-}
+
+   
+
+    }
+
+
+
+
