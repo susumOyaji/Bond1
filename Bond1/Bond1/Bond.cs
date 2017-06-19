@@ -24,13 +24,13 @@ namespace Bond1
                     }
                 }
             };
-            var Client = DependencyService.Get<ClientSocket>();
-            var Guest = DependencyService.Get<GuestSocket>();
-            var Tcp = DependencyService.Get<TcpIpSocket>();
+            //var Client = DependencyService.Get<ClientSocket>();
+            //var Guest = DependencyService.Get<GuestSocket>();
+            //var Tcp = DependencyService.Get<TcpIpSocket>();
 
-            Tcp.GetIPAddress();
+            //Tcp.GetIPAddress();
             //Client.createReceiveUdpSocket();//①ホスト：ゲストから発信されるブロードキャストを受信できる(受信待ち受け)状態にする。
-            //Client.WaitToGuestConnect();//②ゲスト：ホスト探索開始。ゲスト端末のIPアドレスを発信する。
+            //var Ipa  =  Client.WaitToGuestConnect();//②ゲスト：ホスト探索開始。ゲスト端末のIPアドレスを発信する。
             //Client.returnIpAdress();
             //TcpReceive.connect();//②
             //UdpReceive.returnIpAdress("IpAdress");//③ホスト：ゲストから受信したIPアドレスに対してホスト端末のIPアドレスを送り返す。

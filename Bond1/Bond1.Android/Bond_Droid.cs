@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+//using System.Diagnostics;
 
 using Android.App;
 using Android.Content;
@@ -84,8 +85,10 @@ namespace Bond1.Droid
         int tcpPort = 3333;//ホスト、ゲストで統一  
 
         //ゲストからの接続を待つ処理  
-        public async Task WaitToGuestConnect()
+        public async Task<string> WaitToGuestConnect()
         {
+            string Adr;
+            Adr = GetLocalIPAddress();
             try
             {
                 //ServerSocketを生成する
@@ -102,6 +105,7 @@ namespace Bond1.Droid
             {
                 e.PrintStackTrace();
             }
+            return Adr;
         }
 
 
@@ -177,13 +181,13 @@ namespace Bond1.Droid
         //}
 
         //IPアドレスの取得  
-        String getIpAddress()
+        string getIpAddress()
         {
             WifiConfiguration wifiConfig = new WifiConfiguration();
             wifi = (WifiManager)Application.Context.GetSystemService(Context.WifiService);
             WifiInfo wifiinfo = (WifiInfo)Application.Context.GetSystemService(Context.WifiService);
 
-            //int netId = WifiManager.AddNetwork(wifiConfig);
+            //int netId = WifiManager.addNetwork(wifiConfig);
             wifi.Disconnect();
             //wifi.EnableNetwork(netId, true);
             wifi.Reconnect();
@@ -198,6 +202,7 @@ namespace Bond1.Droid
             else
             {
                 ipAddress = (ipAddress_int & 0xFF) + "." + (ipAddress_int >> 8 & 0xFF) + "." + (ipAddress_int >> 16 & 0xFF) + "." + (ipAddress_int >> 24 & 0xFF);
+            
             }
             return ipAddress;
         }
@@ -264,7 +269,7 @@ namespace Bond1.Droid
             }
         }
 
-
+       
         /// <summary>
         /// Sample
         /// </summary>
@@ -279,7 +284,7 @@ namespace Bond1.Droid
         /// 
         /// </summary>
         /// <returns></returns>
-        public string GetIPAddress()
+        public string GetLocalIPAddress()
         {
             string strLocalHostName = Dns.GetHostName();
             IPHostEntry LocalHost = Dns.GetHostEntry(strLocalHostName);

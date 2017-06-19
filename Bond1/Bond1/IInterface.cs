@@ -7,7 +7,7 @@ namespace Bond1
     public interface ClientSocket
     {
         Task createReceiveUdpSocket();
-        Task WaitToGuestConnect();
+        Task<string> WaitToGuestConnect();
         void returnIpAdress(String address);
 
       
