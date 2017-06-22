@@ -47,7 +47,8 @@ namespace Bond1
 
         //IPAdress取得
         string GetIPAddress();
-
+        string getIPAddress();
+        string GetLocalIPAddress();
     }
 
 

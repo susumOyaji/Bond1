@@ -124,6 +124,8 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Bond_Droid.cs" />
+    <Compile Include="BondTcp.cs" />
+    <Compile Include="TcpServer_Droid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -83,12 +83,14 @@ namespace Bond1.Droid
         ServerSocket serverSocket;
         Socket connectedSocket;
         int tcpPort = 3333;//ホスト、ゲストで統一  
+        string Adr;
 
         //ゲストからの接続を待つ処理  
         public async Task<string> WaitToGuestConnect()
         {
-            string Adr;
+            
             Adr = GetLocalIPAddress();
+            //return Adr;
             try
             {
                 //ServerSocketを生成する
@@ -105,7 +107,7 @@ namespace Bond1.Droid
             {
                 e.PrintStackTrace();
             }
-            return Adr;
+            return Adr.ToString();
         }
 
 
@@ -268,6 +270,26 @@ namespace Bond1.Droid
                 }
             }
         }
+
+        public string getIPAddress()
+        {
+            string ipaddress = "";
+
+            IPHostEntry ipentry = Dns.GetHostEntry(Dns.GetHostName());
+
+            foreach (IPAddress ip in ipentry.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    ipaddress = ip.ToString();
+                    break;
+                }
+            }
+            return ipaddress;
+        }
+
+
+
 
        
         /// <summary>
