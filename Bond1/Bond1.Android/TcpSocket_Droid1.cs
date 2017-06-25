@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 using Java.Net;
 using Java.IO;
@@ -27,82 +28,82 @@ namespace Bond1.Droid
     [Activity(Label = "TcpSocket_Droid1")]
     public class TcpSocket_Droid1 : ITcpSocket1
     {
-        public class TcpServer
+        static int PORT = 110;
+
+        /**
+         * @param args
+         */
+        public async void ServerConnect()
         {
 
-            static int PORT = 10000;
+            ServerSocket serverSocket = null;
 
-            /**
-             * @param args
-             */
-            public static void main(String[] args)
+            try
             {
+                serverSocket = new ServerSocket(PORT);
 
-                ServerSocket serverSocket = null;
+                bool runFlag = true;
 
-                try
+                while (runFlag)
                 {
-                    serverSocket = new ServerSocket(PORT);
 
-                    bool runFlag = true;
+                    //System.out.println("start wait...");
+                    System.Console.WriteLine("start wait...");
 
-                    while (runFlag)
+                    // 接続があるまでブロック
+                    Socket socket = await Task.Run(() => serverSocket.Accept());
+
+                    BufferedReader br =
+                        new BufferedReader(new InputStreamReader(socket.InputStream));
+
+                    string str = await Task.Run(() => br.ReadLine());
+
+                    while ((str) != null)
                     {
+                        //System.out.println(str);
+                        System.Console.WriteLine(str);
 
-                        //System.out.println("start wait...");
-                        System.Console.WriteLine("start wait...");
-
-                        // 接続があるまでブロック
-                        Socket socket = serverSocket.Accept();
-
-                        BufferedReader br =
-                            new BufferedReader(
-                                    new InputStreamReader(socket.getInputStream()));
-
-                        String str;
-                        while ((str = br.ReadLine()) != null)
+                        // exitという文字列を受け取ったら終了する
+                        if ("exit".Equals(str))
                         {
-                            //System.out.println(str);
-                            System.Console.WriteLine(str);
-
-                            // exitという文字列を受け取ったら終了する
-                            if ("exit".Equals(str))
-                            {
-                                runFlag = false;
-                            }
-                        }
-
-                        if (socket != null)
-                        {
-                            socket.Close();
-                            socket = null;
+                            runFlag = false;
                         }
                     }
 
+                    if (socket != null)
+                    {
+                        socket.Close();
+                        socket = null;
+                    }
+                }
+
+            }
+            catch (IOException e)
+            {
+                e.PrintStackTrace();
+            }
+
+
+            if (serverSocket != null)
+            {
+                try
+                {
+                    serverSocket.Close();
+                    serverSocket = null;
                 }
                 catch (IOException e)
                 {
                     e.PrintStackTrace();
                 }
-
-
-                if (serverSocket != null)
-                {
-                    try
-                    {
-                        serverSocket.Close();
-                        serverSocket = null;
-                    }
-                    catch (IOException e)
-                    {
-                        e.PrintStackTrace();
-                    }
-                }
             }
-
         }
+
+
         //        このプログラムを実行すると
         //「start wait…」と表示され、ポート10000でクライアントから接続があるまで待機する。
+
+
+
 
 
 
@@ -112,57 +113,56 @@ namespace Bond1.Droid
 
         //ClientLesson.java
 
-        public class TcpClient
+        //static string HOST = "127.0.0.1";
+        static string HOST = "187.22.112.107";//Yahho Mail
+        //static int PORT = 10000;
+
+        /**
+         * @param args
+         */
+        public async void ClientConnect()
         {
 
-            static String HOST = "127.0.0.1";
-            static int PORT = 10000;
+            Socket socket = null;
 
-            /**
-             * @param args
-             */
-            public static void main(String[] args)
+            try
             {
+                socket = await Task.Run(() => new Socket(HOST, PORT));
+                PrintWriter pw = new PrintWriter(socket.OutputStream, true);
+                pw.Println("Hello world");//サーバーに送出するコメント
 
-                Socket socket = null;
+            }
+            catch (UnknownHostException e)
+            {
+                e.PrintStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.PrintStackTrace();
+            }
 
+
+            if (socket != null)
+            {
                 try
                 {
-                    socket = new Socket(HOST, PORT);
-                    PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-                    pw.Println("Hello world");
-
-                }
-                catch (UnknownHostException e)
-                {
-                    e.PrintStackTrace();
+                    socket.Close();
+                    socket = null;
                 }
                 catch (IOException e)
                 {
                     e.PrintStackTrace();
                 }
-
-
-                if (socket != null)
-                {
-                    try
-                    {
-                        socket.Close();
-                        socket = null;
-                    }
-                    catch (IOException e)
-                    {
-                        e.PrintStackTrace();
-                    }
-                }
             }
         }
-
-        //サーバーのプログラムが待機状態ならば、クライアントのプログラムを実行するとサーバー側に文字列が渡るだろう。
-        //サーバー側のコンソールに
-        //「Hello world」と表示される。
-
-        //※この例では、サーバーは”exit”という文字列を受け取らないと停止しない。
-
     }
+
+    //サーバーのプログラムが待機状態ならば、クライアントのプログラムを実行するとサーバー側に文字列が渡るだろう。
+    //サーバー側のコンソールに
+    //「Hello world」と表示される。
+
+    //※この例では、サーバーは”exit”という文字列を受け取らないと停止しない。
+
 }
+
+

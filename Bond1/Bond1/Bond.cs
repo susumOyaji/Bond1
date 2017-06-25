@@ -11,14 +11,15 @@ namespace Bond1
     {
         public App()
         {
-            
-            var Tcp = DependencyService.Get<TcpIpSocket1>().ClientConnect();
-            var AnserAndroid = DependencyService.Get<TcpIpSocket1>().getstring();
-            DependencyService.Get<TcpIpSocket1>().ServerConnect();
+            //DependencyService.Get<TcpIpSocket1>().ClientConnect();
 
+            DependencyService.Get<ITcpSocket1>().ServerConnect();
+            DependencyService.Get<ITcpSocket1>().ClientConnect();
+
+           
             Button AnserButton = new Button
             {
-                Text = "Ans= "+ Tcp
+                Text = "Ans= "
             };
 
 
