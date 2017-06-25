@@ -32,21 +32,14 @@ namespace Bond1
 
             BackgroundColor = Color.DarkRed;
 
-            var getClient = DependencyService.Get<ClientSocket>();
-            //var Guest = DependencyService.Get<GuestSocket>();
-            var Tcp = DependencyService.Get<TcpIpSocket>();
            
-            //Client.createReceiveUdpSocket();//①ホスト：ゲストから発信されるブロードキャストを受信できる(受信待ち受け)状態にする。
-            Task <string> Ipa = getClient.WaitToGuestConnect();//②ゲスト：ホスト探索開始。ゲスト端末のIPアドレスを発信する。
-            string a = Ipa.ToString();
-         
 
 
 
 
 
             Button Client = new Button
-            { Text = a, TextColor = Color.Black, WidthRequest = 80, HeightRequest = 40 };
+            { Text = "a", TextColor = Color.Black, WidthRequest = 80, HeightRequest = 40 };
 
             Button Guest = new Button
             { Text = "Guest", TextColor = Color.Black, WidthRequest = 80, HeightRequest = 40 };

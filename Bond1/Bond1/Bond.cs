@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+
 using Xamarin.Forms;
 
 namespace Bond1
@@ -7,11 +11,22 @@ namespace Bond1
     {
         public App()
         {
+            
+            var Tcp = DependencyService.Get<TcpIpSocket1>().ClientConnect();
+            var AnserAndroid = DependencyService.Get<TcpIpSocket1>().getstring();
+            DependencyService.Get<TcpIpSocket1>().ServerConnect();
+
+            Button AnserButton = new Button
+            {
+                Text = "Ans= "+ Tcp
+            };
+
+
+
+
             // The root page of your application
             var content = new ContentPage
             {
-                
-
                 Title = "Bond",
                 Content = new StackLayout
                 {
@@ -20,25 +35,18 @@ namespace Bond1
                         new Label {
                             HorizontalTextAlignment = TextAlignment.Center,
                             Text = "Welcome to Xamarin Forms!"
-                        }
+
+                        },AnserButton
+
                     }
                 }
             };
-            //var Client = DependencyService.Get<ClientSocket>();
-            //var Guest = DependencyService.Get<GuestSocket>();
-            //var Tcp = DependencyService.Get<TcpIpSocket>();
 
-            //Tcp.GetIPAddress();
-            //Client.createReceiveUdpSocket();//①ホスト：ゲストから発信されるブロードキャストを受信できる(受信待ち受け)状態にする。
-            //var Ipa  =  Client.WaitToGuestConnect();//②ゲスト：ホスト探索開始。ゲスト端末のIPアドレスを発信する。
-            //Client.returnIpAdress();
-            //TcpReceive.connect();//②
-            //UdpReceive.returnIpAdress("IpAdress");//③ホスト：ゲストから受信したIPアドレスに対してホスト端末のIPアドレスを送り返す。
-            //TcpReceive.ConnectEnable();//④ゲスト：ホストから端末情報を受け取る
-            //TcpReceive.Connect(String Adp);//⑤ゲスト：ホストのIPアドレスが判明して、TCP通信を開始する。
 
-            MainPage = new Seting();
-            //MainPage = new NavigationPage(content);
+
+
+            //MainPage = new Seting();
+            MainPage = new NavigationPage(content);
         }
 
        
