@@ -14,12 +14,12 @@ namespace Bond1
             //DependencyService.Get<TcpIpSocket1>().ClientConnect();
 
             DependencyService.Get<ITcpSocket1>().ServerConnect();
-            DependencyService.Get<ITcpSocket1>().ClientConnect();
+            Task<string> Anser = DependencyService.Get<ITcpSocket1>().ClientConnect();
 
            
             Button AnserButton = new Button
             {
-                Text = "Ans= "
+                Text = "Ans= " + Anser
             };
 
 

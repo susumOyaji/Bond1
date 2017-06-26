@@ -29,7 +29,7 @@ namespace Bond1.Droid
     public class TcpSocket_Droid1 : ITcpSocket1
     {
         static int PORT = 110;
-
+        string message;
         /**
          * @param args
          */
@@ -37,7 +37,7 @@ namespace Bond1.Droid
         {
 
             ServerSocket serverSocket = null;
-
+           
             try
             {
                 serverSocket = new ServerSocket(PORT);
@@ -109,27 +109,36 @@ namespace Bond1.Droid
 
 
 
-        //次に、クライアント側のプログラムは以下のようになる。
-
+        //クライアント側のプログラムは以下のようになる。
         //ClientLesson.java
 
         //static string HOST = "127.0.0.1";
-        static string HOST = "187.22.112.107";//Yahho Mail
-        //static int PORT = 10000;
+        static string HOST = "pop.mail.yahoo.co.jp";//"187.22.112.107";//Yahho Mail
+        //static int PORT = 110; Yahoo Mail Port
 
-        /**
-         * @param args
-         */
-        public async void ClientConnect()
+
+        public async Task<string> ClientConnect()
         {
 
             Socket socket = null;
+            //Java.Net.Socket connection = null;
+            BufferedReader reader = null;
+
 
             try
             {
-                socket = await Task.Run(() => new Socket(HOST, PORT));
-                PrintWriter pw = new PrintWriter(socket.OutputStream, true);
-                pw.Println("Hello world");//サーバーに送出するコメント
+
+                // サーバーへ接続
+                socket = await Task.Run(() => new Java.Net.Socket(HOST, PORT));
+               // PrintWriter pw = new PrintWriter(socket.OutputStream, true);
+               // pw.Println("Hello world");//サーバーに送出するコメント
+
+                // メッセージ取得オブジェクトのインスタンス化
+                reader = new BufferedReader(new InputStreamReader(socket.InputStream));
+
+                // サーバーからのメッセージを受信
+                message = await Task.Run(() => (string)(reader.ReadLine()));
+                return "message";
 
             }
             catch (UnknownHostException e)
@@ -154,6 +163,7 @@ namespace Bond1.Droid
                     e.PrintStackTrace();
                 }
             }
+            return "message1";
         }
     }
 

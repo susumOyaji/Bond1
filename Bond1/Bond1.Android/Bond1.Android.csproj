@@ -125,6 +125,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TcpSocket_Droid.cs" />
     <Compile Include="TcpSocket_Droid1.cs" />
+    <Compile Include="String.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

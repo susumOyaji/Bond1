@@ -164,7 +164,7 @@ namespace Bond1.Droid
                     new InputStreamReader(socket.InputStream)
                 );
                 int infoCounter = 0;
-                String remoteDeviceInfo;
+                string remoteDeviceInfo;
                 //ホスト端末情報(端末名とIPアドレス)を保持するためのクラスオブジェクト 
 
                 //※このクラスは別途作成しているもの  
