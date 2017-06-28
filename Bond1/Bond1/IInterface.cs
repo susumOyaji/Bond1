@@ -18,7 +18,8 @@ namespace Bond1
     {
         void ServerConnect();
         Task<string> ClientConnect();
-    
+        bool IsConnected { get; }
+
     }
 
 

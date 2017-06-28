@@ -26,18 +26,98 @@ using Bond1.Droid;
 namespace Bond1.Droid
 {
     [Activity(Label = "TcpSocket_Droid1")]
-    public class TcpSocket_Droid1 : ITcpSocket1
+    public partial class TcpSocket_Droid1 : ITcpSocket1
     {
         static int PORT = 110;
         string message;
-        /**
-         * @param args
-         */
+
+       
+
+        //クライアント側のプログラムは以下のようになる。
+        //ClientLesson.java
+
+        //static string HOST = "127.0.0.1";
+        static string HOST = "pop.mail.yahoo.co.jp";//"187.22.112.107";//Yahho Mail
+        //static int PORT = 110; Yahoo Mail Port
+
+
+        public async Task<string> ClientConnect()
+        {
+
+            Socket socket = null;
+            //Java.Net.Socket connection = null;
+            BufferedReader reader = null;
+            string count = "000000";
+
+
+            try
+            {
+
+                // サーバーへ接続
+                socket = await Task.Run(() => new Java.Net.Socket(HOST, PORT));
+               // PrintWriter pw = new PrintWriter(socket.OutputStream, true);
+               // pw.Println("Hello world");//サーバーに送出するコメント
+
+                // メッセージ取得オブジェクトのインスタンス化
+                reader = new BufferedReader(new InputStreamReader(socket.InputStream));
+
+                // サーバーからのメッセージを受信
+                message = await Task.Run(() => (string)(reader.ReadLine()));
+                IsConnected = true;// message;
+                //return count;
+
+                string manufacturer = Android.OS.Build.Manufacturer;
+                string model = Android.OS.Build.Model;
+                return $"{manufacturer} {model}";
+
+
+            }
+            catch (UnknownHostException e)
+            {
+                e.PrintStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.PrintStackTrace();
+            }
+
+
+            if (socket != null)
+            {
+                try
+                {
+                    socket.Close();
+                    socket = null;
+                }
+                catch (IOException e)
+                {
+                    e.PrintStackTrace();
+                }
+            }
+            return "message1";
+        }
+
+
+
+        public bool IsConnected { get; set; }
+
+
+
+
+        //        このプログラムを実行すると
+        //「start wait…」と表示され、ポート10000でクライアントから接続があるまで待機する。
+
+        //サーバーのプログラムが待機状態ならば、クライアントのプログラムを実行するとサーバー側に文字列が渡るだろう。
+        //サーバー側のコンソールに
+        //「Hello world」と表示される。
+
+        //※この例では、サーバーは”exit”という文字列を受け取らないと停止しない。
+
         public async void ServerConnect()
         {
 
             ServerSocket serverSocket = null;
-           
+
             try
             {
                 serverSocket = new ServerSocket(PORT);
@@ -98,81 +178,8 @@ namespace Bond1.Droid
             }
         }
 
-
-        //        このプログラムを実行すると
-        //「start wait…」と表示され、ポート10000でクライアントから接続があるまで待機する。
-
-
-
-
-
-
-
-
-        //クライアント側のプログラムは以下のようになる。
-        //ClientLesson.java
-
-        //static string HOST = "127.0.0.1";
-        static string HOST = "pop.mail.yahoo.co.jp";//"187.22.112.107";//Yahho Mail
-        //static int PORT = 110; Yahoo Mail Port
-
-
-        public async Task<string> ClientConnect()
-        {
-
-            Socket socket = null;
-            //Java.Net.Socket connection = null;
-            BufferedReader reader = null;
-
-
-            try
-            {
-
-                // サーバーへ接続
-                socket = await Task.Run(() => new Java.Net.Socket(HOST, PORT));
-               // PrintWriter pw = new PrintWriter(socket.OutputStream, true);
-               // pw.Println("Hello world");//サーバーに送出するコメント
-
-                // メッセージ取得オブジェクトのインスタンス化
-                reader = new BufferedReader(new InputStreamReader(socket.InputStream));
-
-                // サーバーからのメッセージを受信
-                message = await Task.Run(() => (string)(reader.ReadLine()));
-                return "message";
-
-            }
-            catch (UnknownHostException e)
-            {
-                e.PrintStackTrace();
-            }
-            catch (IOException e)
-            {
-                e.PrintStackTrace();
-            }
-
-
-            if (socket != null)
-            {
-                try
-                {
-                    socket.Close();
-                    socket = null;
-                }
-                catch (IOException e)
-                {
-                    e.PrintStackTrace();
-                }
-            }
-            return "message1";
-        }
     }
-
-    //サーバーのプログラムが待機状態ならば、クライアントのプログラムを実行するとサーバー側に文字列が渡るだろう。
-    //サーバー側のコンソールに
-    //「Hello world」と表示される。
-
-    //※この例では、サーバーは”exit”という文字列を受け取らないと停止しない。
-
-}
+        
+ }
 
 

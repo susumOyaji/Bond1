@@ -2,29 +2,14 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-
 using Xamarin.Forms;
 
 namespace Bond1
 {
-    public class App : Application
+    public partial class App : Application
     {
         public App()
         {
-            //DependencyService.Get<TcpIpSocket1>().ClientConnect();
-
-            DependencyService.Get<ITcpSocket1>().ServerConnect();
-            Task<string> Anser = DependencyService.Get<ITcpSocket1>().ClientConnect();
-
-           
-            Button AnserButton = new Button
-            {
-                Text = "Ans= " + Anser
-            };
-
-
-
-
             // The root page of your application
             var content = new ContentPage
             {
@@ -37,7 +22,7 @@ namespace Bond1
                             HorizontalTextAlignment = TextAlignment.Center,
                             Text = "Welcome to Xamarin Forms!"
 
-                        },AnserButton
+                        }
 
                     }
                 }
@@ -46,8 +31,8 @@ namespace Bond1
 
 
 
-            //MainPage = new Seting();
-            MainPage = new NavigationPage(content);
+            MainPage = new SelectDisp();
+            //MainPage = new NavigationPage(content);
         }
 
        
