@@ -47,7 +47,7 @@ namespace Bond1.Droid
             Socket socket = null;
             //Java.Net.Socket connection = null;
             BufferedReader reader = null;
-            string count = "000000";
+            //string count = "000000";
 
 
             try

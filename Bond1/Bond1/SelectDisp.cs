@@ -7,10 +7,7 @@ namespace Bond1
 {
     public partial class SelectDisp : ContentPage
     {
-        //TcpSocket_Droid1 td = new TcpSocket_Droid1(); //オブジェクト作成
-
-
-        public SelectDisp()
+       public SelectDisp()
         {
             //Padding = new Thickness(5, Device.OnPlatform(30, 10, 10), 10, 10);
             double top;
@@ -29,9 +26,9 @@ namespace Bond1
             }
             /*layout.Margin*/
             Padding = new Thickness(5, top, 5, 0);
-            DateTime time = DateTime.Now;//new System.DateTime("yyyy", 1, 1, 0, 0, 0, 0);
             BackgroundColor = Color.DarkRed;
 
+            DateTime time = DateTime.Now;//new System.DateTime("yyyy", 1, 1, 0, 0, 0, 0);
 
 
 
@@ -95,7 +92,6 @@ namespace Bond1
                 }
             };
             Content = Date;
-
         }
 
     }
