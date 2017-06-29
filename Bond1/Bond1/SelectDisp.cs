@@ -30,7 +30,21 @@ namespace Bond1
 
             DateTime time = DateTime.Now;//new System.DateTime("yyyy", 1, 1, 0, 0, 0, 0);
 
+            // Imageビューの生成
 
+            //var image = new Image { Aspect = Aspect.AspectFit };
+            //image.Source = ImageSource.FromFile("Menu.png");
+            
+            ////さらに良いことに、暗黙の変換があるので、この行も機能します：
+            //image.Source = "Menu.png";
+
+
+
+            var image = new Image
+            {
+                // 画像を読み込んでSourceプロパティに設定
+                Source = ImageSource.FromResource("ImageSample.Resources.Images.Manu.png"),
+            };
 
 
             Button ClientButton = new Button
@@ -38,7 +52,8 @@ namespace Bond1
                 Text = "Client ",
                 TextColor = Color.Black,
                 WidthRequest = 180,
-                HeightRequest = 40
+                HeightRequest = 40,
+                
             };
             ClientButton.Clicked += ClientButton_Clicked;
 
@@ -85,6 +100,7 @@ namespace Bond1
                     {
 
                         Children = {
+                            //image,
                             ClientButton,
                             ServerButton
                         }
