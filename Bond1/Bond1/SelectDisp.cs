@@ -21,7 +21,7 @@ namespace Bond1
                 case Device.WinPhone:
                 case Device.Windows:
                 default:
-                    top = 30;
+                    top = 0;
                     break;
             }
             /*layout.Margin*/
@@ -32,19 +32,19 @@ namespace Bond1
 
             // Imageビューの生成
 
-            //var image = new Image { Aspect = Aspect.AspectFit };
-            //image.Source = ImageSource.FromFile("Menu.png");
+            var image = new Image { Aspect = Aspect.AspectFit };
+            image.Source = ImageSource.FromFile("Menu.png");
             
             ////さらに良いことに、暗黙の変換があるので、この行も機能します：
-            //image.Source = "Menu.png";
+            //image.Source = "６.png";
 
 
 
-            var image = new Image
-            {
-                // 画像を読み込んでSourceプロパティに設定
-                Source = ImageSource.FromResource("ImageSample.Resources.Images.Manu.png"),
-            };
+            //var image = new Image
+            //{
+            //    // 画像を読み込んでSourceプロパティに設定
+            //    Source = ImageSource.FromResource("Manu.png"),
+            //};
 
 
             Button ClientButton = new Button
@@ -88,19 +88,18 @@ namespace Bond1
             StackLayout Date = new StackLayout()
             {
                 HorizontalOptions = LayoutOptions.Center,
+                //VerticalOptions = LayoutOptions.End,
                 Orientation = StackOrientation.Vertical,
                 //BackgroundColor =Color.Gray,
                 Children = {
-                    new Label
+                        //image,
+                    new StackLayout
                     {
-                        Text = "Select Menu",
-                        TextColor = Color.White,  //Reloadtime(1);
-                    },
-                    new StackLayout()
-                    {
-
+                        HorizontalOptions = LayoutOptions.Center,
+                        VerticalOptions = LayoutOptions.EndAndExpand,
+                        Orientation = StackOrientation.Vertical,
+                        //BackgroundColor =Color.Gray,
                         Children = {
-                            //image,
                             ClientButton,
                             ServerButton
                         }

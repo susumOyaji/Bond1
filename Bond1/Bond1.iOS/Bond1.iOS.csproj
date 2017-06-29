@@ -114,6 +114,7 @@
     <BundleResource Include="Resources\Icon-Small%402x.png" />
     <BundleResource Include="Resources\Icon-Small%403x.png" />
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <BundleResource Include="Resources\Images\Manu.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -135,9 +136,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bond1\Bond1.csproj">
-      <Project>{7fd4048c-9115-4561-850c-c57b4f9e4834}</Project>
+      <Project>{3DF34829-05B2-47A8-A445-B9494365A4E4}</Project>
       <Name>Bond1</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
