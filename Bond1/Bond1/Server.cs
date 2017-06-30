@@ -11,11 +11,18 @@ namespace Bond1
     {
         public Server()
         {
+           
+        }
+
+
+        public string ServerReturn()
+        {
             var network = DependencyService.Get<ITcpSocket1>();
             network.ClientConnect();
             //Task<string> networkAnser = network.ClientConnect();
             bool speak = DependencyService.Get<ITcpSocket1>().IsConnected;// ? "You are Connected" : "You are Not Connected";
-
+            
+            return "Server Mode";
         }
     }
 }

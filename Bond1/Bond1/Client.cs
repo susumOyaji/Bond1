@@ -23,7 +23,7 @@ namespace Bond1
 
             bool speak = DependencyService.Get<ITcpSocket1>().IsConnected;//: ? "You are Connected" : "You are Not Connected";
 
-            return "Client Ans+ " + ClientAns + speak;
+            return "Client Mode ";// + ClientAns + speak;
         }
 
     }

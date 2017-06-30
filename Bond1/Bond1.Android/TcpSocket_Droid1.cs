@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 
 using Java.Net;
 using Java.IO;
@@ -100,6 +101,27 @@ namespace Bond1.Droid
 
 
         public bool IsConnected { get; set; }
+
+
+        //Getting the IP Address of the device fro Android.
+
+      
+        public string getIPAddress()
+        {
+            string ipaddress = "";
+
+            IPHostEntry ipentry = Dns.GetHostEntry(Dns.GetHostName());
+
+            foreach (IPAddress ip in ipentry.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    ipaddress = ip.ToString();
+                    break;
+                }
+            }
+            return ipaddress;
+        }
 
 
 

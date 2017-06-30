@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -31,12 +32,11 @@ namespace Bond1
             DateTime time = DateTime.Now;//new System.DateTime("yyyy", 1, 1, 0, 0, 0, 0);
 
             // Imageビューの生成
-
             var image = new Image { Aspect = Aspect.AspectFit };
             image.Source = ImageSource.FromFile("Menu.png");
             
             ////さらに良いことに、暗黙の変換があるので、この行も機能します：
-            //image.Source = "６.png";
+            image.Source = "Menu.png";
 
 
 
@@ -46,37 +46,80 @@ namespace Bond1
             //    Source = ImageSource.FromResource("Manu.png"),
             //};
 
+            var ipAdr = DependencyService.Get<ITcpSocket1>();
+            string ip = ipAdr.getIPAddress();
 
-            Button ClientButton = new Button
+            Label IpaDisp = new Label
             {
-                Text = "Client ",
+                Text = ip,
+                FontSize = 15,
+                //Font = Font.SystemFontOfSize(NamedSize.Large).WithAttributes(FontAttributes.Bold),
+               
+                BackgroundColor = Color.White,
                 TextColor = Color.Black,
                 WidthRequest = 180,
                 HeightRequest = 40,
                 
             };
-            ClientButton.Clicked += ClientButton_Clicked;
 
 
-            void ClientButton_Clicked(object sender, EventArgs e)
+
+            //void ClientButton_Clicked(object sender, EventArgs e)
+            //{
+            //    Client td = new Client(); //オブジェクト作成
+            //    string Ans = td.ClientReturn();
+            //    ClientButton.Text = Ans;
+            //}
+
+            // ホスト名を取得する
+            //string hostname = Dns.GetHostName();
+
+            // ホスト名からIPアドレスを取得する
+            //IPAddress[] adrList = Dns.GetHostAddresses(hostname);
+           
+
+
+
+            Entry IpaEntry = new Entry
             {
-                Client td = new Client(); //オブジェクト作成
-                string Ans = td.ClientReturn();
-                ClientButton.Text = Ans;
-            }
-
-
-            Button ServerButton = new Button
-            {
-                Text = "Server",
+                Text = null,
+                //Placeholder = "Server",
+                Keyboard = Keyboard.Plain,
+                BackgroundColor = Color.White,
                 TextColor = Color.Black,
                 WidthRequest = 180,
                 HeightRequest = 40
             };
-            ServerButton.Clicked += ServerButton_Clicked;
 
-            void ServerButton_Clicked(object sender, EventArgs e)
+           
+            Button SendIpa = new Button
             {
+                Text = "送信",
+                TextColor = Color.Black,
+                WidthRequest = 180,
+                HeightRequest = 40
+
+            };
+            SendIpa.Clicked += SendIpaButton_Clicked;
+
+
+
+            void SendIpaButton_Clicked(object sender, EventArgs e)
+            {
+                if (IpaEntry.Text == null)
+                {
+                    //to Client mode()
+                    Client cl = new Client();
+                    IpaEntry.Text = cl.ClientReturn();
+                }
+                else
+                {
+                    //to Server mode()
+                    Server se = new Server();
+                    IpaEntry.Text =se.ServerReturn();
+                }
+
+
                 Client td = new Client(); //オブジェクト作成
             }
 
@@ -88,20 +131,20 @@ namespace Bond1
             StackLayout Date = new StackLayout()
             {
                 HorizontalOptions = LayoutOptions.Center,
-                //VerticalOptions = LayoutOptions.End,
+                VerticalOptions = LayoutOptions.Start,
                 Orientation = StackOrientation.Vertical,
                 //BackgroundColor =Color.Gray,
                 Children = {
-                        //image,
+                        image,
                     new StackLayout
                     {
                         HorizontalOptions = LayoutOptions.Center,
-                        VerticalOptions = LayoutOptions.EndAndExpand,
+                        VerticalOptions = LayoutOptions.StartAndExpand,
                         Orientation = StackOrientation.Vertical,
                         //BackgroundColor =Color.Gray,
                         Children = {
-                            ClientButton,
-                            ServerButton
+                            IpaDisp,
+                            IpaEntry,SendIpa
                         }
                     }
                 }
