@@ -8,7 +8,8 @@ namespace Bond1
 {
     public partial class SelectDisp : ContentPage
     {
-       public SelectDisp()
+
+        public SelectDisp()
         {
             //Padding = new Thickness(5, Device.OnPlatform(30, 10, 10), 10, 10);
             double top;
@@ -22,113 +23,61 @@ namespace Bond1
                 case Device.WinPhone:
                 case Device.Windows:
                 default:
-                    top = 0;
+                    top = 10;
                     break;
             }
             /*layout.Margin*/
             Padding = new Thickness(5, top, 5, 0);
-            BackgroundColor = Color.DarkRed;
+            BackgroundColor = Color.Aquamarine;
+
+           
+            var menu1 = new ToolbarItem { Text = "Client" };
+            menu1.Clicked += async (s, a) =>
+            {     // <-1
+                var Ans = await DisplayAlert("Selected", ((ToolbarItem)s).Text, "NO", "OK");
+                if (!Ans)
+                {
+                    Application.Current.MainPage = new Client();
+                }
+            };
+
+            ToolbarItems.Add(menu1);
+              var menu2 = new ToolbarItem { Text = "Server" };
+            menu2.Clicked += async (s, a) =>
+            {     // <-1
+                var Ans = await DisplayAlert("Selected", ((ToolbarItem)s).Text, "NO", "OK");
+                if (!Ans)
+                {
+                    Application.Current.MainPage = new Server();
+                }
+            };
+            ToolbarItems.Add(menu2);
+
+
 
             DateTime time = DateTime.Now;//new System.DateTime("yyyy", 1, 1, 0, 0, 0, 0);
 
             // Imageビューの生成
             var image = new Image { Aspect = Aspect.AspectFit };
-            image.Source = ImageSource.FromFile("Menu.png");
+            image.Source = ImageSource.FromFile("Menu2.png");
             
             ////さらに良いことに、暗黙の変換があるので、この行も機能します：
-            image.Source = "Menu.png";
+            image.Source = "Menu2.png";
 
 
 
-            //var image = new Image
-            //{
-            //    // 画像を読み込んでSourceプロパティに設定
-            //    Source = ImageSource.FromResource("Manu.png"),
-            //};
-
-            var ipAdr = DependencyService.Get<ITcpSocket1>();
-            string ip = ipAdr.getIPAddress();
-
-            Label IpaDisp = new Label
+            Label CommentDisp = new Label()
             {
-                Text = ip,
-                FontSize = 15,
-                //Font = Font.SystemFontOfSize(NamedSize.Large).WithAttributes(FontAttributes.Bold),
-               
-                BackgroundColor = Color.White,
+                Text = "\nClient Mode or Server Mode Select\nServer to priSetup to Go",
+                FontSize = 20,
+                //BackgroundColor = Color.White,
                 TextColor = Color.Black,
-                WidthRequest = 180,
-                HeightRequest = 40,
-                
+                //WidthRequest = 180,
+                //HeightRequest = 40,
             };
 
 
-
-            //void ClientButton_Clicked(object sender, EventArgs e)
-            //{
-            //    Client td = new Client(); //オブジェクト作成
-            //    string Ans = td.ClientReturn();
-            //    ClientButton.Text = Ans;
-            //}
-
-            // ホスト名を取得する
-            //string hostname = Dns.GetHostName();
-
-            // ホスト名からIPアドレスを取得する
-            //IPAddress[] adrList = Dns.GetHostAddresses(hostname);
-           
-
-
-
-            Entry IpaEntry = new Entry
-            {
-                Text = null,
-                //Placeholder = "Server",
-                Keyboard = Keyboard.Plain,
-                BackgroundColor = Color.White,
-                TextColor = Color.Black,
-                WidthRequest = 180,
-                HeightRequest = 40
-            };
-
-           
-            Button SendIpa = new Button
-            {
-                Text = "送信",
-                TextColor = Color.Black,
-                WidthRequest = 180,
-                HeightRequest = 40
-
-            };
-            SendIpa.Clicked += SendIpaButton_Clicked;
-
-
-
-            void SendIpaButton_Clicked(object sender, EventArgs e)
-            {
-                if (IpaEntry.Text == null)
-                {
-                    //to Client mode()
-                    Client cl = new Client();
-                    IpaEntry.Text = cl.ClientReturn();
-                }
-                else
-                {
-                    //to Server mode()
-                    Server se = new Server();
-                    IpaEntry.Text =se.ServerReturn();
-                }
-
-
-                Client td = new Client(); //オブジェクト作成
-            }
-
-
-
-
-
-
-            StackLayout Date = new StackLayout()
+            StackLayout SelectDisp = new StackLayout()
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Start,
@@ -143,13 +92,15 @@ namespace Bond1
                         Orientation = StackOrientation.Vertical,
                         //BackgroundColor =Color.Gray,
                         Children = {
-                            IpaDisp,
-                            IpaEntry,SendIpa
+                            CommentDisp,
+                            //IpaEntry,SendIpa
                         }
                     }
                 }
             };
-            Content = Date;
+            Content = SelectDisp;
+
+                     
         }
 
     }

@@ -29,7 +29,7 @@ namespace Bond1.Droid
     [Activity(Label = "TcpSocket_Droid1")]
     public partial class TcpSocket_Droid1 : ITcpSocket1
     {
-        static int PORT = 110;
+        static int PORT = 3333;
         string message;
 
        
@@ -56,8 +56,8 @@ namespace Bond1.Droid
 
                 // サーバーへ接続
                 socket = await Task.Run(() => new Java.Net.Socket(HOST, PORT));
-               // PrintWriter pw = new PrintWriter(socket.OutputStream, true);
-               // pw.Println("Hello world");//サーバーに送出するコメント
+                PrintWriter pw = new PrintWriter(socket.OutputStream, true);
+                pw.Println("Hello world");//サーバーに送出するコメント
 
                 // メッセージ取得オブジェクトのインスタンス化
                 reader = new BufferedReader(new InputStreamReader(socket.InputStream));
