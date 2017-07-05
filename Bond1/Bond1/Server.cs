@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Bond1
@@ -84,8 +84,8 @@ namespace Bond1
 
             var network = DependencyService.Get<ITcpSocket1>();
            
-            //Task<string> networkAnser = network.ClientConnect();
-            DependencyService.Get<ITcpSocket1>().ServerConnect();//:? "You are Connected" : "You are Not Connected";
+            Task<string> networkAnser = network.ClientConnect1();
+            //DependencyService.Get<ITcpSocket1>().ServerConnect1();//:? "You are Connected" : "You are Not Connected";
             
             //return "Server Mode";
         }

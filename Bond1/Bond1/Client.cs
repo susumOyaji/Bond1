@@ -100,10 +100,14 @@ namespace Bond1
             {
                 
                 var network = DependencyService.Get<ITcpSocket1>();
-                Task<string> ClientAns = network.ClientConnect();
+                Task<string> ClientAns = network.ClientConnect1();
 
                 bool speak = DependencyService.Get<ITcpSocket1>().IsConnected;//: ? "You are Connected" : "You are Not Connected";
             }
+          
+
+           
+
             return "Client Mode ";// + ClientAns + speak;
         }
 

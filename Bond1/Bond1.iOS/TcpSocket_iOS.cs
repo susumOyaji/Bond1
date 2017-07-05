@@ -1,204 +1,232 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Net;
-using System.Net.Sockets;
-using Xamarin.Forms;
-using UIKit;
-
 
 using Bond1.iOS;
+
+
+
+
 
 
 [assembly: Xamarin.Forms.Dependency(typeof(TcpSocket_iOS))]
 namespace Bond1.iOS
 {
-        //[Activity(Label = "TcpSocket_iOS")]
-        public partial class TcpSocket_iOS : ITcpSocket1
+    //[Activity(Label = "TcpSocket_iOS")]
+    public partial class TcpSocket_iOS : ITcpSocket1
+    {
+        //サーバーのIPアドレス（または、ホスト名）とポート番号
+        string ipOrHost = "127.0.0.1";
+        //string ipOrHost = "localhost";
+        int port = 2001;
+
+        public TcpSocket_iOS() { }
+
+        public async Task<string> ClientConnect1()
         {
-            static int PORT = 3333;
-            string message;
-
-
-
-            //クライアント側のプログラムは以下のようになる。
-            //ClientLesson.java
-
-            //static string HOST = "127.0.0.1";
-            static string HOST = "pop.mail.yahoo.co.jp";//"187.22.112.107";//Yahho Mail
-                                                        //static int PORT = 110; Yahoo Mail Port
-
-
-            public async Task<string> ClientConnect()
+            //サーバーに送信するデータを入力してもらう
+            System.Console.WriteLine("文字列を入力し、Enterキーを押してください。");
+            string sendMsg = System.Console.ReadLine();
+            //何も入力されなかった時は終了
+            if (sendMsg == null || sendMsg.Length == 0)
             {
-
-                Socket socket = null;
-                //Java.Net.Socket connection = null;
-                BufferedReader reader = null;
-            //string count = "000000";
-                var streamReader = new StreamReader(filePath);
-                string line;
-                while ((line = streamReader.ReadLine()) != null)
-
-
-
-
-                try
-                {
-
-                    // サーバーへ接続
-                    socket = await Task.Run(() => new Socket(HOST, PORT));
-                    PrintWriter pw = new PrintWriter(socket.OutputStream, true);
-                    pw.Println("Hello world");//サーバーに送出するコメント
-
-                    // メッセージ取得オブジェクトのインスタンス化
-                    reader = new BufferedReader(new InputStreamReader(socket.InputStream));
-
-                    // サーバーからのメッセージを受信
-                    message = await Task.Run(() => (string)(reader.ReadLine()));
-                    IsConnected = true;// message;
-                                       //return count;
-
-                   
-                    return $"{manufacturer} {model}";
-
-
-                }
-                catch (Foundation.NSErrorException e)
-                {
-                    //works
-                    System.Diagnostics.Debug.WriteLine(e + "Caught ns Error exception"); 
-                    
-                }
-                catch (IOException e)
-                {
-                    System.Diagnostics.Debug.WriteLine(e + "Caught ns exception");
-                    
-                }
-
-
-                if (socket != null)
-                {
-                    try
-                    {
-                        socket.Close();
-                        socket = null;
-                    }
-                    catch (IOException e)
-                    {
-                        System.Diagnostics.Debug.WriteLine(e + "Caught ns exception"); ;
-                    }
-                }
-                return "message1";
+                return  "";
             }
 
 
+            //try
+            //{
+                //TcpClientを作成し、サーバーと接続する
+                System.Net.Sockets.TcpClient tcp = await Task.Run(() => new System.Net.Sockets.TcpClient(ipOrHost, port));
+                System.Console.WriteLine("サーバー({0}:{1})と接続しました({2}:{3})。",
+                ((System.Net.IPEndPoint)tcp.Client.RemoteEndPoint).Address,
+                ((System.Net.IPEndPoint)tcp.Client.RemoteEndPoint).Port,
+                ((System.Net.IPEndPoint)tcp.Client.LocalEndPoint).Address,
+                ((System.Net.IPEndPoint)tcp.Client.LocalEndPoint).Port);
 
-            public bool IsConnected { get; set; }
+            //}
+            //catch (IOException e)
+            //{
+            //    System.Console.WriteLine("文字列を入力し、Enterキーを押してください。" + e); 
+            //}
+
+            //catch (IOException e)
+            //{
+            //    System.Console.WriteLine("文字列を入力し、Enterキーを押してください。"+e); 
+            //}
 
 
-            //Getting the IP Address of the device fro Android.
+           
+            //NetworkStreamを取得する
+            System.Net.Sockets.NetworkStream ns = tcp.GetStream();
 
+            //読み取り、書き込みのタイムアウトを10秒にする
+            //デフォルトはInfiniteで、タイムアウトしない
+            //(.NET Framework 2.0以上が必要)
+            ns.ReadTimeout = 10000;
+            ns.WriteTimeout = 10000;
 
-            public string getIPAddress()
+            //サーバーにデータを送信する
+            //文字列をByte型配列に変換
+            System.Text.Encoding enc = System.Text.Encoding.UTF8;
+            byte[] sendBytes = enc.GetBytes(sendMsg + '\n');
+            //データを送信する
+            ns.Write(sendBytes, 0, sendBytes.Length);
+            System.Console.WriteLine(sendMsg);
+
+            //サーバーから送られたデータを受信する
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            byte[] resBytes = new byte[256];
+            int resSize = 0;
+            do
             {
-                string ipaddress = "";
-
-                IPHostEntry ipentry = Dns.GetHostEntry(Dns.GetHostName());
-
-                foreach (IPAddress ip in ipentry.AddressList)
+                //データの一部を受信する
+                resSize = ns.Read(resBytes, 0, resBytes.Length);
+                //Readが0を返した時はサーバーが切断したと判断
+                if (resSize == 0)
                 {
-                    if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                    {
-                        ipaddress = ip.ToString();
-                        break;
-                    }
+                    System.Console.WriteLine("サーバーが切断しました。");
+                    break;
                 }
-                return ipaddress;
-            }
+                //受信したデータを蓄積する
+                ms.Write(resBytes, 0, resSize);
+                //まだ読み取れるデータがあるか、データの最後が\nでない時は、
+                // 受信を続ける
+            } while (ns.DataAvailable || resBytes[resSize - 1] != '\n');
+            //受信したデータを文字列に変換
+            string resMsg = enc.GetString(ms.GetBuffer(), 0, (int)ms.Length);
+            ms.Close();
+            //末尾の\nを削除
+            resMsg = resMsg.TrimEnd('\n');
+            System.Console.WriteLine(resMsg);
 
+            //閉じる
+            ns.Close();
+            tcp.Close();
+            System.Console.WriteLine("切断しました。");
 
-
-
-            //        このプログラムを実行すると
-            //「start wait…」と表示され、ポート10000でクライアントから接続があるまで待機する。
-
-            //サーバーのプログラムが待機状態ならば、クライアントのプログラムを実行するとサーバー側に文字列が渡るだろう。
-            //サーバー側のコンソールに
-            //「Hello world」と表示される。
-
-            //※この例では、サーバーは”exit”という文字列を受け取らないと停止しない。
-
-            public async void ServerConnect()
-            {
-
-                ServerSocket serverSocket = null;
-
-                try
-                {
-                    serverSocket = new ServerSocket(PORT);
-
-                    bool runFlag = true;
-
-                    while (runFlag)
-                    {
-
-                        //System.out.println("start wait...");
-                        System.Console.WriteLine("start wait...");
-
-                        // 接続があるまでブロック
-                        Socket socket = await Task.Run(() => serverSocket.Accept());
-
-                        BufferedReader br =
-                            new BufferedReader(new InputStreamReader(socket.InputStream));
-
-                        string str = await Task.Run(() => br.ReadLine());
-
-                        while ((str) != null)
-                        {
-                            //System.out.println(str);
-                            System.Console.WriteLine(str);
-
-                            // exitという文字列を受け取ったら終了する
-                            if ("exit".Equals(str))
-                            {
-                                runFlag = false;
-                            }
-                        }
-
-                        if (socket != null)
-                        {
-                            socket.Close();
-                            socket = null;
-                        }
-                    }
-
-                }
-                catch (IOException e)
-                {
-                    e.PrintStackTrace();
-                }
-
-
-                if (serverSocket != null)
-                {
-                    try
-                    {
-                        serverSocket.Close();
-                        serverSocket = null;
-                    }
-                    catch (IOException e)
-                    {
-                        e.PrintStackTrace();
-                    }
-                }
-            }
-
+            System.Console.ReadLine();
+            return "message1";
         }
 
 
-}
 
+        public bool IsConnected { get; set; }
+
+
+        //Getting the IP Address of the device fro Android.
+
+
+        public string getIPAddress()
+        {
+            string ipaddress = "";
+
+            IPHostEntry ipentry = Dns.GetHostEntry(Dns.GetHostName());
+
+            foreach (IPAddress ip in ipentry.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    ipaddress = ip.ToString();
+                    break;
+                }
+            }
+            return ipaddress;
+        }
+
+
+
+
+
+        public void ServerConnect()
+        {
+            int port = 3333;
+            //ListenするIPアドレス
+            string ipString = "127.0.0.1";
+            System.Net.IPAddress ipAdd = System.Net.IPAddress.Parse(ipString);
+
+            //ホスト名からIPアドレスを取得する時は、次のようにする
+            //string host = "localhost";
+            //System.Net.IPAddress ipAdd =
+            //    System.Net.Dns.GetHostEntry(host).AddressList[0];
+            //.NET Framework 1.1以前では、以下のようにする
+            //System.Net.IPAddress ipAdd =
+            //    System.Net.Dns.Resolve(host).AddressList[0];
+
+            //Listenするポート番号
+            //int port = 2001;
+
+            //TcpListenerオブジェクトを作成する
+            System.Net.Sockets.TcpListener listener = new System.Net.Sockets.TcpListener(ipAdd, port);
+
+            //Listenを開始する
+            listener.Start();
+            System.Console.WriteLine("Listenを開始しました({0}:{1})。", ((System.Net.IPEndPoint)listener.LocalEndpoint).Address, ((System.Net.IPEndPoint)listener.LocalEndpoint).Port);
+
+            //接続要求があったら受け入れる
+            System.Net.Sockets.TcpClient client = listener.AcceptTcpClient(); System.Console.WriteLine("クライアント({0}:{1})と接続しました。",
+                ((System.Net.IPEndPoint)client.Client.RemoteEndPoint).Address,
+                 ((System.Net.IPEndPoint)client.Client.RemoteEndPoint).Port);
+
+            //NetworkStreamを取得
+            System.Net.Sockets.NetworkStream ns = client.GetStream();
+
+            //読み取り、書き込みのタイムアウトを10秒にする
+            //デフォルトはInfiniteで、タイムアウトしない
+            //(.NET Framework 2.0以上が必要)
+            ns.ReadTimeout = 10000;
+            ns.WriteTimeout = 10000;
+
+            //クライアントから送られたデータを受信する
+            System.Text.Encoding enc = System.Text.Encoding.UTF8;
+            bool disconnected = false;
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            byte[] resBytes = new byte[256];
+            int resSize = 0;
+            do
+            {
+                //データの一部を受信する
+                resSize = ns.Read(resBytes, 0, resBytes.Length);
+                //Readが0を返した時はクライアントが切断したと判断
+                if (resSize == 0)
+                {
+                    disconnected = true;
+                    System.Console.WriteLine("クライアントが切断しました。");
+                    break;
+                }
+                //受信したデータを蓄積する
+                ms.Write(resBytes, 0, resSize);
+                //まだ読み取れるデータがあるか、データの最後が\nでない時は、
+                // 受信を続ける
+            } while (ns.DataAvailable || resBytes[resSize - 1] != '\n');
+            //受信したデータを文字列に変換
+            string resMsg = enc.GetString(ms.GetBuffer(), 0, (int)ms.Length);
+            ms.Close();
+            //末尾の\nを削除
+            resMsg = resMsg.TrimEnd('\n');
+            System.Console.WriteLine(resMsg);
+
+            if (!disconnected)
+            {
+                //クライアントにデータを送信する
+                //クライアントに送信する文字列を作成
+                string sendMsg = resMsg.Length.ToString();
+                //文字列をByte型配列に変換
+                byte[] sendBytes = enc.GetBytes(sendMsg + '\n');
+                //データを送信する
+                ns.Write(sendBytes, 0, sendBytes.Length);
+                System.Console.WriteLine(sendMsg);
+            }
+
+            //閉じる
+            ns.Close();
+            client.Close();
+            System.Console.WriteLine("クライアントとの接続を閉じました。");
+
+            //リスナを閉じる
+            listener.Stop();
+            System.Console.WriteLine("Listenerを閉じました。");
+
+            System.Console.ReadLine();
+        }
+    }
+}
