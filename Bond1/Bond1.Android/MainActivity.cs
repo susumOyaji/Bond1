@@ -20,6 +20,8 @@ namespace Bond1.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            Xamarin.Forms.DependencyService.Register<TcpSocket_Droid1>();
+
             LoadApplication(new App());
 
         }

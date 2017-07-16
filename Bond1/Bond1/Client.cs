@@ -10,7 +10,9 @@ namespace Bond1
 {
     public partial class Client : ContentPage
     {
-        public  Client()
+        string Model;
+
+        public Client()
         {
             ClientReturn();
         }
@@ -47,12 +49,14 @@ namespace Bond1
             Entry IpaEntry = new Entry
             {
                 Text = null,
+                FontSize = 15,
                 //Placeholder = "Server",
                 Keyboard = Keyboard.Plain,
                 BackgroundColor = Color.White,
                 TextColor = Color.Black,
                 WidthRequest = 180,
                 HeightRequest = 40
+                    
             };
 
 
@@ -98,15 +102,33 @@ namespace Bond1
 
             void SendIpaButton_Clicked(object sender, EventArgs e)
             {
-                
-                var network = DependencyService.Get<ITcpSocket1>();
-                Task<string> ClientAns = network.ClientConnect1();
-
-                bool speak = DependencyService.Get<ITcpSocket1>().IsConnected;//: ? "You are Connected" : "You are Not Connected";
+               WaitTimer();
+               //bool speak = DependencyService.Get<ITcpSocket1>().IsConnected;//: ? "You are Connected" : "You are Not Connected";
             }
-          
 
-           
+
+            void WaitTimer()
+            {
+                Device.StartTimer(TimeSpan.FromSeconds(1.0), () =>
+                {
+                // Do something
+                    Model = DependencyService.Get<ITcpSocket1>().SeverToConnect();
+                    if (Model == null ^ Model == "Non Anser!")
+                    {
+                        IpaEntry.Text = "サーバに接続中   " + Model;
+                        return true;
+                    }
+                    else
+                    {
+                        IpaEntry.Text = "サーバに接続されました！   "+"\n" + Model;
+                        return false; // True = Repeat again, False = Stop the timer 
+                    }
+
+                });
+
+            }
+
+
 
             return "Client Mode ";// + ClientAns + speak;
         }

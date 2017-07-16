@@ -32,8 +32,8 @@ namespace Bond1
 
 
 
-            //MainPage = new SelectDisp();
-            MainPage = new NavigationPage(new SelectDisp());
+            MainPage = new SelectDisp();
+            //MainPage = new NavigationPage(new SelectDisp());
         }
 
        

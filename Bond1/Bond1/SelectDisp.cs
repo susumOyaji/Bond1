@@ -65,6 +65,22 @@ namespace Bond1
             image.Source = "Menu2.png";
 
 
+            Button ServerButton = new Button()
+            {
+                Text = "Mode to Server",
+                WidthRequest = 180,
+            };
+            ServerButton.Clicked +=  ServerButton_Clicked;
+
+
+            Button ClientButton = new Button()
+            {
+                Text = "Mode tp Client",
+                WidthRequest = 180,
+            };
+            ClientButton.Clicked += ClientButton_Clicked;
+
+
 
             Label CommentDisp = new Label()
             {
@@ -75,6 +91,41 @@ namespace Bond1
                 //WidthRequest = 180,
                 //HeightRequest = 40,
             };
+
+            async void ServerButton_Clicked(object sender, EventArgs e)
+            {     // <-1
+                var Anser = await DisplayAlert("Selected", "Server Mode", "NO", "OK");
+                if (!Anser)
+                {
+                    Application.Current.MainPage = new Server();
+                }    
+           };
+           
+            async void ClientButton_Clicked(object sender, EventArgs e) 
+           {     // <-1
+                var Ans = await DisplayAlert("Selected", "Client Mode", "NO", "OK"); 
+                if (!Ans) 
+                {
+                    Application.Current.MainPage = new Client();
+               }
+           };
+
+
+            var layout = new AbsoluteLayout();
+
+            var centerLabel = new Label
+            {
+                Text = "I'm centered on iPhone 4 but no other device.",
+                LineBreakMode = LineBreakMode.WordWrap
+            };
+            AbsoluteLayout.SetLayoutBounds(centerLabel, new Rectangle(115, 159, 100, 100));
+            // No need to set layout flags, absolute positioning is the default
+            layout.Children.Add(centerLabel);
+
+
+
+
+
 
 
             StackLayout SelectDisp = new StackLayout()
@@ -92,8 +143,19 @@ namespace Bond1
                         Orientation = StackOrientation.Vertical,
                         //BackgroundColor =Color.Gray,
                         Children = {
-                            CommentDisp,
-                            //IpaEntry,SendIpa
+                            new StackLayout
+                            {
+                                HorizontalOptions = LayoutOptions.Center,
+                                VerticalOptions = LayoutOptions.Start,
+                                Orientation = StackOrientation.Horizontal,
+                                Children ={
+                                    ServerButton,
+                                    ClientButton,
+                                    layout
+                                }
+                               
+                            },
+                             CommentDisp//IpaEntry,SendIpa
                         }
                     }
                 }

@@ -16,21 +16,22 @@ namespace Bond1.iOS
     {
         //サーバーのIPアドレス（または、ホスト名）とポート番号
         string ipOrHost = "127.0.0.1";
+        //string ipOrHost = "187.22.112.107";//yahoo
         //string ipOrHost = "localhost";
         int port = 2001;
 
         public TcpSocket_iOS() { }
 
-        public async Task<string> ClientConnect1()
+        public async Task<string> ClientConnect()
         {
             //サーバーに送信するデータを入力してもらう
-            System.Console.WriteLine("文字列を入力し、Enterキーを押してください。");
-            string sendMsg = System.Console.ReadLine();
+            //System.Console.WriteLine("文字列を入力し、Enterキーを押してください。");
+            string sendMsg = "heliiw";//System.Console.ReadLine();
             //何も入力されなかった時は終了
-            if (sendMsg == null || sendMsg.Length == 0)
-            {
-                return  "";
-            }
+            //if (sendMsg == null || sendMsg.Length == 0)
+            //{
+            //    return  "";
+            //}
 
 
             //try
@@ -114,6 +115,17 @@ namespace Bond1.iOS
 
 
         //Getting the IP Address of the device fro Android.
+
+        string ITcpSocket1.OsVersion
+        {
+            get
+            {
+                return "message"; //Android.OS.Build.VERSION.Release;
+            }
+        }
+
+
+
 
 
         public string getIPAddress()

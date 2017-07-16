@@ -6,8 +6,7 @@ using Java.Net;
 using Java.IO;
 using Android.App;
 using Bond1.Droid;
-
-
+using Android.OS;
 
 [assembly: Xamarin.Forms.Dependency(typeof(TcpSocket_Droid1))]
 namespace Bond1.Droid
@@ -15,22 +14,27 @@ namespace Bond1.Droid
     [Activity(Label = "TcpSocket_Droid1")]
     public partial class TcpSocket_Droid1 : ITcpSocket1
     {
-        static int PORT = 3333;
-        string message;
-
-       
-
-        //クライアント側のプログラムは以下のようになる。
-        //ClientLesson.java
-
+        static int PORT = 110;//3333;
         //static string HOST = "127.0.0.1";
         static string HOST = "pop.mail.yahoo.co.jp";//"187.22.112.107";//Yahho Mail
         //static int PORT = 110; Yahoo Mail Port
+        string Ans = "Non Anser!";
 
 
-        public async Task<string> ClientConnect()
+        public TcpSocket_Droid1(){ }
+
+        public string SeverToConnect()
         {
+            var Task = ClientConnect();
+            return Ans;
+        }
 
+
+
+        //private TaskCompletionSource<string> taskCompletionSource;
+        public async Task ClientConnect()
+        {
+            
             Socket socket = null;
             //Java.Net.Socket connection = null;
             BufferedReader reader = null;
@@ -41,22 +45,21 @@ namespace Bond1.Droid
             {
 
                 // サーバーへ接続
-                socket = await Task.Run(() => new Java.Net.Socket(HOST, PORT));
-                PrintWriter pw = new PrintWriter(socket.OutputStream, true);
-                pw.Println("Hello world");//サーバーに送出するコメント
+                socket = await Task.Run(() => new Socket(HOST, PORT));
 
+                //PrintWriter pw = new PrintWriter(socket.OutputStream, true);
+                //pw.Println("Hello world");//サーバーに送出するコメント
+                //socket.Wait();
                 // メッセージ取得オブジェクトのインスタンス化
                 reader = new BufferedReader(new InputStreamReader(socket.InputStream));
 
                 // サーバーからのメッセージを受信
-                message = await Task.Run(() => (string)(reader.ReadLine()));
+                Ans = await Task.Run(() => (reader.ReadLine()));
+                //message = reader.ReadLine();
                 IsConnected = true;// message;
-                //return count;
 
-                string manufacturer = Android.OS.Build.Manufacturer;
-                string model = Android.OS.Build.Model;
-                return $"{manufacturer} {model}";
-
+                //taskCompletionSource = new TaskCompletionSource<string>();
+                //return message;
 
             }
             catch (UnknownHostException e)
@@ -69,21 +72,32 @@ namespace Bond1.Droid
             }
 
 
-            if (socket != null)
-            {
-                try
-                {
-                    socket.Close();
-                    socket = null;
-                }
-                catch (IOException e)
-                {
-                    e.PrintStackTrace();
-                }
-            }
-            return "message1";
+            //if (socket != null)
+            //{
+            //    try
+            //    {
+            //        socket.Close();
+            //        socket = null;
+            //    }
+            //    catch (IOException e)
+            //    {
+            //        e.PrintStackTrace();
+            //    }
+            //}
+            //return reader.ReadLine();
+            //return await taskCompletionSource.Task;
+            //return Ans;
         }
 
+
+
+        string ITcpSocket1.OsVersion
+        {
+            get
+            {
+                return "message;"; //Android.OS.Build.VERSION.Release;
+            }
+        }
 
 
         public bool IsConnected { get; set; }
@@ -91,7 +105,21 @@ namespace Bond1.Droid
 
         //Getting the IP Address of the device fro Android.
 
-      
+        public string GetIPAddress()
+        {
+            IPAddress[] adresses = Dns.GetHostAddresses(Dns.GetHostName());
+
+            if (adresses != null && adresses[0] != null)
+            {
+                return adresses[0].ToString();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
         public string getIPAddress()
         {
             string ipaddress = "";
@@ -121,14 +149,25 @@ namespace Bond1.Droid
 
         //※この例では、サーバーは”exit”という文字列を受け取らないと停止しない。
 
-        public async void ServerConnect()
+        public string SeverToReceive()
         {
+            var Task = ServerConnect();
+            return Ans;
+        }
 
+
+
+
+
+
+        public async Task ServerConnect()
+        {
+            
             ServerSocket serverSocket = null;
 
             try
             {
-                serverSocket = new ServerSocket(PORT);
+                serverSocket = await Task.Run(() => new Java.Net.ServerSocket(0));
 
                 bool runFlag = true;
 
@@ -141,8 +180,7 @@ namespace Bond1.Droid
                     // 接続があるまでブロック
                     Socket socket = await Task.Run(() => serverSocket.Accept());
 
-                    BufferedReader br =
-                        new BufferedReader(new InputStreamReader(socket.InputStream));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(socket.InputStream));
 
                     string str = await Task.Run(() => br.ReadLine());
 
@@ -169,22 +207,39 @@ namespace Bond1.Droid
             catch (IOException e)
             {
                 e.PrintStackTrace();
+                Ans = e.ToString();
             }
 
 
-            if (serverSocket != null)
-            {
-                try
-                {
-                    serverSocket.Close();
-                    serverSocket = null;
-                }
-                catch (IOException e)
-                {
-                    e.PrintStackTrace();
-                }
-            }
+            //if (serverSocket != null)
+            //{
+            //    try
+            //    {
+            //        serverSocket.Close();
+            //        serverSocket = null;
+            //    }
+            //    catch (IOException e)
+            //    {
+            //        e.PrintStackTrace();
+            //    }
+            //}
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
