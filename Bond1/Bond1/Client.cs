@@ -102,8 +102,18 @@ namespace Bond1
 
             void SendIpaButton_Clicked(object sender, EventArgs e)
             {
-               WaitTimer();
-               //bool speak = DependencyService.Get<ITcpSocket1>().IsConnected;//: ? "You are Connected" : "You are Not Connected";
+                //Server IpAdressをセットして送る 
+                string sendIp = IpaEntry.Text;
+                if (sendIp != null)
+                {
+                    //SendIpaAdress(sendIp);
+                    WaitTimer();
+                }
+                else
+                {
+                    IpaEntry.Text = "Ipaデータが不正です！";
+                    sendIp = null;
+                }
             }
 
 

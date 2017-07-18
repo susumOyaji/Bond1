@@ -236,7 +236,7 @@ namespace Bond1
 
             absoluteLayout.Children.Add(label01); // 上
             absoluteLayout.Children.Add(ServerButton/*label02*/); // 左中心
-            absoluteLayout.Children.Add(label03); // 右中心
+            absoluteLayout.Children.Add(ClientButton/*label03*/); // 右中心
             absoluteLayout.Children.Add(label04); // 下
 
             // 左上
@@ -260,8 +260,8 @@ namespace Bond1
             AbsoluteLayout.SetLayoutBounds(image/* label*/, new Rectangle(0.5, 0.0, 350/*AbsoluteLayout.AutoSize*/, 350/*AbsoluteLayout.AutoSize*/));
 
             // 右中心
-            AbsoluteLayout.SetLayoutFlags(label03, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(label03, new Rectangle(1, 0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            AbsoluteLayout.SetLayoutFlags(ClientButton/*label03*/, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(ClientButton/*label03*/, new Rectangle(1.0, 0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
             // 左下
             AbsoluteLayout.SetLayoutFlags(label3, AbsoluteLayoutFlags.PositionProportional);
