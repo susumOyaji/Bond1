@@ -19,184 +19,30 @@ using UIKit;
 [assembly: Xamarin.Forms.Dependency(typeof(TcpSocket_iOS))]
 namespace Bond1.iOS
 {
-    public partial class MyNameSpace002ViewController : UIViewController
+   
+    //[Activity(Label = "TcpSocket_iOS")]
+    public partial class TcpSocket_iOS : ITcpSocket1
     {
-       private string dataString;
-       int currentSliderValue;
-
-            IPAddress ipadd = IPAddress.Parse("1.2.3.4");
-            TcpClient sock = new TcpClient();
-            int portNumber = 2000;
-        private object slider01;///
-
-
-        public MyNameSpace002ViewController() : base("MyNameSpace002ViewController", null)
-            {
-            }
-
-            public override void DidReceiveMemoryWarning()
-            {
-                // Releases the view if it doesn't have a superview.
-                base.DidReceiveMemoryWarning();
-
-                // Release any cached data, images, etc that aren't in use.
-            }
-
-            public override void ViewDidLoad()
-            {
-                base.ViewDidLoad();
-
-                this.slider01.MinValue = 0;
-                this.slider01.MaxValue = 255;
-
-            }
-
-            public override bool ShouldAutorotateToInterfaceOrientation(UIKit.UIInterfaceOrientation toInterfaceOrientation)
-            {
-                // Return true for supported orientations
-                return true;
-            }
-
-            /// <summary>
-            /// This is our common action handler. Two buttons call this via an action method.
-            /// </summary>
-            partial void slider_changed(Foundation.NSObject sender)
-            {
-
-                currentSliderValue = Convert.ToInt32(((UISlider)sender).Value);
-                this.lb1.Text = currentSliderValue.ToString();
-
-                buildString();
-            }
+        //サーバーのIPアドレス（または、ホスト名）とポート番号
+        //string ipOrHost = "127.0.0.1";
+        string ipOrHost = "187.22.112.107";//yahoo
+        //string ipOrHost = "localhost";
+        //int port = 2001;
+        int port = 110;//yahoo mail
+        string Ans = "Non Anser!";
 
 
-            /// <summary>
-            /// Builds the string. Starts with a dollar as that is our start character.
-            /// This is set up for up to 4 sliders to be used but at the moment only has 
-            /// one dynamic value and the other 3 are set to zeros.
-            /// </summary>
-            private void buildString()
-            {
-                string sl1 = currentSliderValue.ToString();
-                string sl2 = "0";
-                string sl3 = "0";
-                string sl4 = "0";
+        public TcpSocket_iOS() { }
 
-
-                if (sl1.Length == 1) { sl1 = string.Concat("00", sl1); }
-                if (sl2.Length == 1) { sl2 = string.Concat("00", sl2); }
-                if (sl3.Length == 1) { sl3 = string.Concat("00", sl3); }
-                if (sl4.Length == 1) { sl4 = string.Concat("00", sl4); }
-
-                if (sl1.Length == 2) { sl1 = string.Concat("0", sl1); }
-                if (sl2.Length == 2) { sl2 = string.Concat("0", sl2); }
-                if (sl3.Length == 2) { sl3 = string.Concat("0", sl3); }
-                if (sl4.Length == 2) { sl4 = string.Concat("0", sl4); }
-
-
-                dataString = string.Concat(
-                    "$",
-                    sl1,
-                    ",",
-                    sl2,
-                    ",",
-                    sl3,
-                    ",",
-                    sl4);
-
-                this.lbStatus.Text = dataString;
-
-                sendPacket();
-
-            }
-
-
-
-            /// <summary>
-            /// Makes a tcp connection and returns true or false
-            /// </summary>
-            /// <returns></returns>
-            protected bool tcpConnect()
-            {
-                try
-                {
-                    sock.Connect(ipadd, portNumber);
-                }
-                catch (Exception ex)
-                {
-                    this.lbStatus.Text = "1. " + ex.Message;
-                    return true;
-                }
-
-                return false;
-            }
-
-
-            /// <summary>
-            /// Connects if there isn't one already and then sends the packet.
-            /// </summary>
-            void sendPacket()
-            {
-                if (!sock.Connected)
-                {
-                    tcpConnect();
-                }
-
-                //once connection made, do this
-                if (sock.Connected)
-                {
-                    StreamWriter w = new StreamWriter(sock.GetStream());
-
-                    w.WriteLine(dataString);
-                    w.Flush();
-                }
-                else
-                {
-                    this.lbStatus.Text = "Not connected so cannot send.";
-                }
-
-            }
-
-
+        public string SeverToConnect()
+        {
+            var Task = ClientConnect();
+            return Ans;
         }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //[Activity(Label = "TcpSocket_iOS")]
-    public partial class TcpSocket_iOS : ITcpSocket1
-    {
-        //サーバーのIPアドレス（または、ホスト名）とポート番号
-        string ipOrHost = "127.0.0.1";
-        //string ipOrHost = "187.22.112.107";//yahoo
-        //string ipOrHost = "localhost";
-        int port = 2001;
-
-        public TcpSocket_iOS() { }
 
         public async Task<string> ClientConnect()
         {
@@ -321,13 +167,17 @@ namespace Bond1.iOS
             return ipaddress;
         }
 
-
-
-
-
-        public void ServerConnect()
+        public string SeverToReceive()
         {
-            int port = 3333;
+            var Task = ServerConnect();
+            return Ans;
+        }
+
+
+
+        public async Task ServerConnect()
+        {
+            //int port = 3333;
             //ListenするIPアドレス
             string ipString = "127.0.0.1";
             System.Net.IPAddress ipAdd = System.Net.IPAddress.Parse(ipString);
@@ -344,7 +194,7 @@ namespace Bond1.iOS
             //int port = 2001;
 
             //TcpListenerオブジェクトを作成する
-            System.Net.Sockets.TcpListener listener = new System.Net.Sockets.TcpListener(ipAdd, port);
+            System.Net.Sockets.TcpListener listener = await Task.Run(() => new System.Net.Sockets.TcpListener(ipAdd, port));
 
             //Listenを開始する
             listener.Start();

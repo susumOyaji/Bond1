@@ -100,7 +100,7 @@ namespace Bond1
             //ServerState.Text = network;
 
             SeverWaitTimer();
-            GpsOn();
+            //GpsOn();
             //Task<string> networkAnser = network.ClientConnect();
             //DependencyService.Get<ITcpSocket1>().ServerConnect1();//:? "You are Connected" : "You are Not Connected";
 

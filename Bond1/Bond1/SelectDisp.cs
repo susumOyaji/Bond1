@@ -28,7 +28,7 @@ namespace Bond1
             }
             /*layout.Margin*/
             Padding = new Thickness(5, top, 5, 0);
-            BackgroundColor = Color.Aquamarine;
+            BackgroundColor = Color.OrangeRed;
 
            
             var menu1 = new ToolbarItem { Text = "Client" };

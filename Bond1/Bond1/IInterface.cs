@@ -17,6 +17,7 @@ namespace Bond1
     public interface ITcpSocket1
     {
         Task ServerConnect();
+        //void ServerConnect();
         string SeverToConnect();
         Task<string> ClientConnect();
         //Task<string> ClientConnect1();
