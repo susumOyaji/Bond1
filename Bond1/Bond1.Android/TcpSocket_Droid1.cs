@@ -18,6 +18,11 @@ namespace Bond1.Droid
         //static string HOST = "127.0.0.1";
         static string HOST = "pop.mail.yahoo.co.jp";//"187.22.112.107";//Yahho Mail
         //static int PORT = 110; Yahoo Mail Port
+        //サーバーのIPアドレス（または、ホスト名）とポート番号
+        string ipOrHost = "pop.mail.yahoo.co.jp";//"127.0.0.1";
+        //string ipOrHost = "localhost";
+        int port = 110;//2001;
+
         string Ans = "Non Anser!";
 
 
@@ -32,7 +37,7 @@ namespace Bond1.Droid
 
 
         //private TaskCompletionSource<string> taskCompletionSource;
-        public async Task ClientConnect()
+        public async Task ClientConnect1()
         {
             
             Socket socket = null;
@@ -151,7 +156,7 @@ namespace Bond1.Droid
 
         public string SeverToReceive()
         {
-            var Task = ServerConnect();
+            var Task = ServerConnect1();
             return Ans;
         }
 
@@ -160,7 +165,7 @@ namespace Bond1.Droid
 
 
 
-        public async Task ServerConnect()
+        public async Task ServerConnect1()
         {
             
             ServerSocket serverSocket = null;
@@ -244,22 +249,19 @@ namespace Bond1.Droid
 
 
 
-        public async Task<string> ClientConnect1()
+        public async Task ClientConnect()
         {
-            //サーバーのIPアドレス（または、ホスト名）とポート番号
-            string ipOrHost = "127.0.0.1";
-            //string ipOrHost = "localhost";
-            int port = 2001;
+            
 
 
             //サーバーに送信するデータを入力してもらう
             System.Console.WriteLine("文字列を入力し、Enterキーを押してください。");
             string sendMsg = System.Console.ReadLine();
             //何も入力されなかった時は終了
-            if (sendMsg == null || sendMsg.Length == 0)
-            {
-                return "";
-            }
+            //if (sendMsg == null || sendMsg.Length == 0)
+            //{
+            //    return "";
+            //}
 
 
             //try
@@ -334,7 +336,8 @@ namespace Bond1.Droid
             System.Console.WriteLine("切断しました。");
 
             System.Console.ReadLine();
-            return "message1";
+            //return resMsg.ToString();
+            Ans = resMsg;
         }
 
 
@@ -366,7 +369,7 @@ namespace Bond1.Droid
 
 
 
-        public void ServerConnect1()
+        public async Task ServerConnect()
         {
             int port = 3333;
             //ListenするIPアドレス
@@ -385,7 +388,7 @@ namespace Bond1.Droid
             //int port = 2001;
 
             //TcpListenerオブジェクトを作成する
-            System.Net.Sockets.TcpListener listener = new System.Net.Sockets.TcpListener(ipAdd, port);
+            System.Net.Sockets.TcpListener listener = await Task.Run(() => new System.Net.Sockets.TcpListener(ipAdd, port));
 
             //Listenを開始する
             listener.Start();

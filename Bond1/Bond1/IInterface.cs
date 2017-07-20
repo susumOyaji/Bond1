@@ -19,7 +19,7 @@ namespace Bond1
         Task ServerConnect();
         //void ServerConnect();
         string SeverToConnect();
-        Task<string> ClientConnect();
+        Task ClientConnect();
         //Task<string> ClientConnect1();
         string SeverToReceive();
         bool IsConnected { get; }

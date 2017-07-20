@@ -49,7 +49,7 @@ namespace Bond1
             Entry IpaEntry = new Entry
             {
                 Text = null,
-                FontSize = 15,
+                FontSize = 5,
                 //Placeholder = "Server",
                 Keyboard = Keyboard.Plain,
                 BackgroundColor = Color.White,
@@ -108,11 +108,13 @@ namespace Bond1
                 {
                     //SendIpaAdress(sendIp);
                     WaitTimer();
+
                 }
                 else
                 {
                     IpaEntry.Text = "Ipaデータが不正です！";
                     sendIp = null;
+                    //var Ans = DependencyService.Get<ITcpSocket1>().ClientConnect();
                 }
             }
 
