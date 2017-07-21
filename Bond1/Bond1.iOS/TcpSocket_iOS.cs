@@ -44,7 +44,7 @@ namespace Bond1.iOS
 
 
 
-        public async Task<string> ClientConnect()
+        public async Task ClientConnect()
         {
             //サーバーに送信するデータを入力してもらう
             //System.Console.WriteLine("文字列を入力し、Enterキーを押してください。");
@@ -128,7 +128,7 @@ namespace Bond1.iOS
             System.Console.WriteLine("切断しました。");
 
             System.Console.ReadLine();
-            return "message1";
+            //return "message1";
         }
 
 

@@ -22,7 +22,7 @@ namespace Bond1.Droid
         string ipOrHost = "pop.mail.yahoo.co.jp";//"127.0.0.1";
         //string ipOrHost = "localhost";
         int port = 110;//2001;
-
+        string[] a;
         string Ans = "Non Anser!";
 
 
@@ -239,7 +239,11 @@ namespace Bond1.Droid
 
 
 
+        public string[] GetConectIp()
+        {
+            return a;
 
+        }
 
 
 
@@ -255,7 +259,7 @@ namespace Bond1.Droid
 
 
             //サーバーに送信するデータを入力してもらう
-            System.Console.WriteLine("文字列を入力し、Enterキーを押してください。");
+            //System.Console.WriteLine("文字列を入力し、Enterキーを押してください。");
             string sendMsg = System.Console.ReadLine();
             //何も入力されなかった時は終了
             //if (sendMsg == null || sendMsg.Length == 0)
@@ -274,6 +278,12 @@ namespace Bond1.Droid
             ((System.Net.IPEndPoint)tcp.Client.LocalEndPoint).Address,
             ((System.Net.IPEndPoint)tcp.Client.LocalEndPoint).Port);
 
+
+           
+            a = new string[] { ((System.Net.IPEndPoint)tcp.Client.RemoteEndPoint).Address.ToString(), ((System.Net.IPEndPoint)tcp.Client.RemoteEndPoint).Port.ToString(),
+                    ((System.Net.IPEndPoint)tcp.Client.LocalEndPoint).Address.ToString(),((System.Net.IPEndPoint)tcp.Client.LocalEndPoint).Port.ToString()};
+
+                       
             //}
             //catch (IOException e)
             //{

@@ -22,6 +22,9 @@ namespace Bond1
         Task ClientConnect();
         //Task<string> ClientConnect1();
         string SeverToReceive();
+        string[] GetConectIp();
+
+
         bool IsConnected { get; }
         string getIPAddress();
         string OsVersion { get; }

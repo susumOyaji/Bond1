@@ -59,6 +59,18 @@ namespace Bond1
                     
             };
 
+            Entry GetInfo = new Entry
+            {
+                Text = null,
+                FontSize = 5,
+                //Placeholder = "Server",
+                Keyboard = Keyboard.Plain,
+                BackgroundColor = Color.White,
+                TextColor = Color.Black,
+                WidthRequest = 180,
+                HeightRequest = 40
+            };
+
 
             Button SendIpa = new Button
             {
@@ -89,7 +101,9 @@ namespace Bond1
                         //BackgroundColor =Color.Gray,
                         Children = {
                             IpaDisp,
-                            IpaEntry,SendIpa
+                            IpaEntry,
+                            SendIpa,
+                            GetInfo
                         }
                     }
                 }
@@ -133,6 +147,7 @@ namespace Bond1
                     else
                     {
                         IpaEntry.Text = "サーバに接続されました！   "+"\n" + Model;
+                        GetInfo.Text = DependencyService.Get<ITcpSocket1>().GetConectIp().ToString();
                         return false; // True = Repeat again, False = Stop the timer 
                     }
 
