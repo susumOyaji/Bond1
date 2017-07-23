@@ -16,17 +16,25 @@ namespace Bond1.Droid
     {
         static int PORT = 110;//3333;
         //static string HOST = "127.0.0.1";
-        static string HOST = "pop.mail.yahoo.co.jp";//"187.22.112.107";//Yahho Mail
+        static string HOST;// = "pop.mail.yahoo.co.jp";//"182.22.112.107";//Yahho Mail
         //static int PORT = 110; Yahoo Mail Port
         //サーバーのIPアドレス（または、ホスト名）とポート番号
-        string ipOrHost = "pop.mail.yahoo.co.jp";//"127.0.0.1";
+        //string ipOrHost = "pop.mail.yahoo.co.jp";//"127.0.0.1";
         //string ipOrHost = "localhost";
         int port = 110;//2001;
         string[] a;
         string Ans = "Non Anser!";
-
+        System.Net.Sockets.TcpClient tcp;
 
         public TcpSocket_Droid1(){ }
+
+
+        public void SeverIpadressSet(string Adr,int Port)
+        {
+
+            HOST = Adr;
+            PORT = 110;//Port;
+        }
 
         public string SeverToConnect()
         {
@@ -248,7 +256,11 @@ namespace Bond1.Droid
 
 
 
-
+        public string MsgReturn()
+        {
+            string Msg = "";
+            return Msg;
+        }
 
 
 
@@ -268,27 +280,26 @@ namespace Bond1.Droid
             //}
 
 
-            //try
-            //{
+            try
+            {
             //TcpClientを作成し、サーバーと接続する
-            System.Net.Sockets.TcpClient tcp = await Task.Run(() => new System.Net.Sockets.TcpClient(ipOrHost, port));
+                tcp = await Task.Run(() => new System.Net.Sockets.TcpClient(HOST, port));
             System.Console.WriteLine("サーバー({0}:{1})と接続しました({2}:{3})。",
             ((System.Net.IPEndPoint)tcp.Client.RemoteEndPoint).Address,
             ((System.Net.IPEndPoint)tcp.Client.RemoteEndPoint).Port,
             ((System.Net.IPEndPoint)tcp.Client.LocalEndPoint).Address,
             ((System.Net.IPEndPoint)tcp.Client.LocalEndPoint).Port);
 
-
            
             a = new string[] { ((System.Net.IPEndPoint)tcp.Client.RemoteEndPoint).Address.ToString(), ((System.Net.IPEndPoint)tcp.Client.RemoteEndPoint).Port.ToString(),
                     ((System.Net.IPEndPoint)tcp.Client.LocalEndPoint).Address.ToString(),((System.Net.IPEndPoint)tcp.Client.LocalEndPoint).Port.ToString()};
 
-                       
-            //}
-            //catch (IOException e)
-            //{
-            //    System.Console.WriteLine("文字列を入力し、Enterキーを押してください。" + e); 
-            //}
+                     
+            }
+            catch (IOException e)
+            {
+                System.Console.WriteLine("文字列を入力し、Enterキーを押してください。" + e); 
+            }
 
             //catch (IOException e)
             //{

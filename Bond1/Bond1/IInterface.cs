@@ -21,13 +21,19 @@ namespace Bond1
         string SeverToConnect();
         Task ClientConnect();
         //Task<string> ClientConnect1();
+        void SeverIpadressSet(string arg,int port);
         string SeverToReceive();
         string[] GetConectIp();
-
+       
 
         bool IsConnected { get; }
         string getIPAddress();
         string OsVersion { get; }
+
+       
+        //event LocationEventHandler LocationReceived;
+
+
     }
 
 
