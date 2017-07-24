@@ -55,32 +55,32 @@ namespace Bond1
             };
 
 
-            Entry IpaEntry = new Entry
-            {
-                Text = null,
-                FontSize = 15,
-                //Placeholder = "Server",
-                Keyboard = Keyboard.Url,
-                BackgroundColor = Color.White,
-                TextColor = Color.Black,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
-                //WidthRequest = 180,
-                HeightRequest = 30
+            Entry IpaEntry;// = new Entry
+            //{
+            //    Text = null,
+            //    FontSize = 15,
+            //    //Placeholder = "Server",
+            //    Keyboard = Keyboard.Url,
+            //    BackgroundColor = Color.White,
+            //    TextColor = Color.Black,
+            //    HorizontalOptions = LayoutOptions.StartAndExpand,
+            //    //WidthRequest = 180,
+            //    HeightRequest = 30
 
-            };
+            //};
 
 
 
-            Button SendIpa = new Button
-            {
-                Text = "接続",
-                TextColor = Color.Black,
-                BackgroundColor = Color.Gray,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
-                //WidthRequest = 100,
-                HeightRequest = 50
+            Button SendIpa;// = new Button
+            //{
+            //    Text = "接続",
+            //    TextColor = Color.Black,
+            //    BackgroundColor = Color.Gray,
+            //    HorizontalOptions = LayoutOptions.StartAndExpand,
+            //    //WidthRequest = 100,
+            //    HeightRequest = 50
 
-            };
+            //};
 
 
 
@@ -88,54 +88,72 @@ namespace Bond1
             {
                 Text = null,
                 FontSize = 15,
-                //Placeholder = "Server",
-                //Keyboard = Keyboard.Plain,
+              
                 BackgroundColor = Color.White,
                 TextColor = Color.Black,
                 HorizontalOptions = LayoutOptions.StartAndExpand,
+                VerticalOptions = LayoutOptions.StartAndExpand,
                 //WidthRequest = 50,
-                HeightRequest = 100
+                //HeightRequest = 100
             };
 
 
 
-            SendIpa.Clicked += SendIpaButton_Clicked;
+           
 
-            StackLayout ClientDisp = new StackLayout()
-            {
-                HorizontalOptions = LayoutOptions.StartAndExpand,
-                VerticalOptions = LayoutOptions.Start,
-                Orientation = StackOrientation.Vertical,
-                BackgroundColor =Color.Black,
-                Children = {
-                        //image,
-                        new StackLayout{
-                            HorizontalOptions = LayoutOptions.StartAndExpand,
-                            VerticalOptions = LayoutOptions.Center,
-                            Orientation = StackOrientation.Horizontal,
-                            //BackgroundColor =Color.Gray,
-                            Children = {
-                                MyIp,IpaDisp,
-                            }
-                        },
-                        new StackLayout{
-                        HorizontalOptions = LayoutOptions.StartAndExpand,
-                            //VerticalOptions = LayoutOptions.Center,
-                            Orientation = StackOrientation.Horizontal,
-                            Children = {
-                                IpaEntry,SendIpa
-                            }
-                        },GetInfo
-                }
 
-              };
 
             /// <summary>
             /// </summary>
             /// <param name="sender">Sender.</param>
             /// <param name="e">E.</param>
 
-            var grid = new Grid
+            var fastgrid = new Grid
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.Center,
+                RowDefinitions =
+            {
+                new RowDefinition() { Height = GridLength.Star}//行
+            },
+                ColumnDefinitions =//桁
+            {
+                new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) },
+                new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) },
+                //new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) },
+            }
+            };
+
+            fastgrid.Children.Add(new Label
+            {
+                //VerticalOptions = LayoutOptions.Center,
+                //HorizontalOptions = LayoutOptions.FillAndExpand,
+                //HeightRequest = 35,
+                Text = "This My IpAdress",
+                TextColor = Color.Black,
+                BackgroundColor = Color.Aqua,
+            }, 0, 0);
+
+            fastgrid.Children.Add(new Button
+            {
+                //VerticalOptions = LayoutOptions.Center,
+                //HorizontalOptions = LayoutOptions.FillAndExpand,
+                Text = ipAdr.getIPAddress(),//"two two",
+                TextColor = Color.Black,
+                BackgroundColor = Color.Fuchsia,
+            }, 1, 0);
+
+            //fastgrid.Children.Add(new Button
+            //{
+            //    VerticalOptions = LayoutOptions.Center,
+            //    HorizontalOptions = LayoutOptions.FillAndExpand,
+            //    Text = "three three three",
+            //    TextColor = Color.Black,
+            //    BackgroundColor = Color.Lime,
+            //}, 2, 0);
+
+
+            var secondgrid = new Grid
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.Center,
@@ -147,47 +165,78 @@ namespace Bond1
             {
                 new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) },
                 new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) },
-                new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) },
+                //new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) },
             }
             };
-
-            grid.Children.Add(new Label
+            ///
+           
+            secondgrid.Children.Add(IpaEntry = new Entry
             {
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                HeightRequest = 50,
-                Text = "This My Ip",
+                //VerticalOptions = LayoutOptions.Center,
+                //HorizontalOptions = LayoutOptions.FillAndExpand,
+                HeightRequest = 35,
+                Text = "Input to IpAdress",
                 TextColor = Color.Black,
                 BackgroundColor = Color.Aqua,
             }, 0, 0);
 
-            grid.Children.Add(new Button
+            secondgrid.Children.Add(SendIpa = new Button
             {
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                Text = "two two",
+                //VerticalOptions = LayoutOptions.Center,
+                //HorizontalOptions = LayoutOptions.FillAndExpand,
+                Text = "接続",//"two two",
                 TextColor = Color.Black,
                 BackgroundColor = Color.Fuchsia,
             }, 1, 0);
 
-            grid.Children.Add(new Button
+            //secondgrid.Children.Add(new Button
+            //{
+            //    VerticalOptions = LayoutOptions.Center,
+            //    HorizontalOptions = LayoutOptions.FillAndExpand,
+            //    Text = "three three three",
+            //    TextColor = Color.Black,
+            //    BackgroundColor = Color.Lime,
+            //}, 2, 0);
+
+            SendIpa.Clicked += SendIpaButton_Clicked;
+
+
+
+
+            StackLayout ClientDisp = new StackLayout()
             {
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                Text = "three three three",
-                TextColor = Color.Black,
-                BackgroundColor = Color.Lime,
-            }, 2, 0);
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                Orientation = StackOrientation.Vertical,
+                BackgroundColor =Color.White,
+                Children = {
+                        image,
+                        new StackLayout{
+                            HorizontalOptions = LayoutOptions.StartAndExpand,
+                            VerticalOptions = LayoutOptions.Center,
+                            Orientation = StackOrientation.Horizontal,
+                            //BackgroundColor =Color.Gray,
+                            Children = {
+                               fastgrid,// MyIp,IpaDisp,
+                             }
+                        },
+                        new StackLayout{
+                            HorizontalOptions = LayoutOptions.StartAndExpand,
+                            VerticalOptions = LayoutOptions.Center,
+                            Orientation = StackOrientation.Horizontal,
+                            Children = {
+                                secondgrid,//IpaEntry,SendIpa
+                            }
+                        },GetInfo
+                }
+
+              };
+          
+            
 
 
-
-
-
-
-
-
-            //Content = ClientDisp;
-            Content = grid;
+            Content = ClientDisp;
+            //Content = grid;
 
 
 
@@ -205,7 +254,7 @@ namespace Bond1
                 }
                 else
                 {
-                    IpaEntry.Text = "Ipaデータが不正です！";
+                    GetInfo.Text = "Ipaデータが不正です！";
                     sendIp = null;
                     //var Ans = DependencyService.Get<ITcpSocket1>().ClientConnect();
                 }
@@ -222,12 +271,12 @@ namespace Bond1
 
                     if (ModelOk.ToString() != "+OK")
                     {
-                        IpaEntry.Text = "サーバに接続中   ";
+                        GetInfo.Text = "サーバに接続中   ";
                         return true;
                     }
                     else
                     {
-                        IpaEntry.Text = "サーバに接続されました！ ";
+                        GetInfo.Text = "サーバに接続されました！ ";
                         string[] a = DependencyService.Get<ITcpSocket1>().GetConectIp();
                         GetInfo.Text = Model + "\n" + a[0] + "\n" + a[1] + "\n" + a[2] + "\n" + a[3];
                         return false; // True = Repeat again, False = Stop the timer 
