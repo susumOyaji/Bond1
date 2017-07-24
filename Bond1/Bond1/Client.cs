@@ -31,14 +31,17 @@ namespace Bond1
 
             Label MyIp = new Label()
             {
+                Margin = new Thickness(10, 0, 10, 0),//left, top, right, bottom
                 Text = "THIS IP",
                 FontSize = 15,
-                //BackgroundColor = Color.Black,
                 TextColor = Color.Black,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
-                //WidthRequest = 100,
-                HeightRequest = 30
+                HorizontalTextAlignment = TextAlignment.Center,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                //WidthRequest = 110,
+                HeightRequest = 30,
+                BackgroundColor = Color.DarkGray,    
             };
+           
 
             var ipAdr = DependencyService.Get<ITcpSocket1>();
             //string ip = ipAdr.getIPAddress();
@@ -46,13 +49,20 @@ namespace Bond1
             {
                 Text = ipAdr.getIPAddress(),
                 FontSize = 15,
-                BackgroundColor = Color.Yellow,
+                BackgroundColor = Color.DarkGray,
                 TextColor = Color.Black,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
                 //WidthRequest = 180,
                 HeightRequest = 30,
 
             };
+
+            //StartAndExpand： 縦並びではコントロールの下に（横並びでは右に）間隔を開ける
+            //CenterAndExpand： 縦並びではコントロールの上下に（横並びでは左右に）間隔を開ける
+            //EndAndExpand： 縦並びではコントロールの上に（横並びでは左に）間隔を開ける
+            //FillAndExpand： 縦並びではコントロールを上下に（横並びでは左右に）拡張する
+
+
 
 
             Entry IpaEntry;// = new Entry
@@ -114,7 +124,7 @@ namespace Bond1
                 VerticalOptions = LayoutOptions.Center,
                 RowDefinitions =
             {
-                new RowDefinition() { Height = GridLength.Star}//行
+                    new RowDefinition() { Height = GridLength.Auto}//行
             },
                 ColumnDefinitions =//桁
             {
@@ -126,9 +136,9 @@ namespace Bond1
 
             fastgrid.Children.Add(new Label
             {
-                //VerticalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
                 //HorizontalOptions = LayoutOptions.FillAndExpand,
-                //HeightRequest = 35,
+                //HeightRequest = 2,
                 Text = "This My IpAdress",
                 TextColor = Color.Black,
                 BackgroundColor = Color.Aqua,
@@ -205,23 +215,23 @@ namespace Bond1
 
             StackLayout ClientDisp = new StackLayout()
             {
-                HorizontalOptions = LayoutOptions.StartAndExpand,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 Orientation = StackOrientation.Vertical,
                 BackgroundColor =Color.White,
                 Children = {
                         image,
                         new StackLayout{
-                            HorizontalOptions = LayoutOptions.StartAndExpand,
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
                             VerticalOptions = LayoutOptions.Center,
                             Orientation = StackOrientation.Horizontal,
                             //BackgroundColor =Color.Gray,
                             Children = {
-                               fastgrid,// MyIp,IpaDisp,
+                               MyIp,IpaDisp,
                              }
                         },
                         new StackLayout{
-                            HorizontalOptions = LayoutOptions.StartAndExpand,
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
                             VerticalOptions = LayoutOptions.Center,
                             Orientation = StackOrientation.Horizontal,
                             Children = {
