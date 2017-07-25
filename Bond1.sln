@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bond1.Android", "Bond1\Bond1.Android\Bond1.Android.csproj", "{3156B2A7-AB42-4B8B-BDB2-4561959AE7ED}"
 EndProject

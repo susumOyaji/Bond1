@@ -47,10 +47,12 @@ namespace Bond1
             //string ip = ipAdr.getIPAddress();
             Label IpaDisp = new Label
             {
+                Margin = new Thickness(10, 0, 10, 0),
                 Text = ipAdr.getIPAddress(),
                 FontSize = 15,
                 BackgroundColor = Color.DarkGray,
                 TextColor = Color.Black,
+                HorizontalTextAlignment = TextAlignment.Center,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 //WidthRequest = 180,
                 HeightRequest = 30,
@@ -65,32 +67,34 @@ namespace Bond1
 
 
 
-            Entry IpaEntry;// = new Entry
-            //{
-            //    Text = null,
-            //    FontSize = 15,
-            //    //Placeholder = "Server",
-            //    Keyboard = Keyboard.Url,
-            //    BackgroundColor = Color.White,
-            //    TextColor = Color.Black,
-            //    HorizontalOptions = LayoutOptions.StartAndExpand,
-            //    //WidthRequest = 180,
-            //    HeightRequest = 30
+            Entry IpaEntry = new Entry
+            {
+                Margin = new Thickness(10, 0, 10, 0),
+                Text = null,
+                FontSize = 15,
+                //Placeholder = "Server",
+                Keyboard = Keyboard.Url,
+                BackgroundColor = Color.White,
+                TextColor = Color.Black,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                //WidthRequest = 180,
+                HeightRequest = 30
 
-            //};
+            };
 
 
 
-            Button SendIpa;// = new Button
-            //{
-            //    Text = "接続",
-            //    TextColor = Color.Black,
-            //    BackgroundColor = Color.Gray,
-            //    HorizontalOptions = LayoutOptions.StartAndExpand,
-            //    //WidthRequest = 100,
-            //    HeightRequest = 50
+            Button SendIpa = new Button
+            {
+                Margin = new Thickness(10, 0, 10, 0),
+                Text = "接続",
+                TextColor = Color.Black,
+                BackgroundColor = Color.Gray,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                //WidthRequest = 100,
+                HeightRequest = 50
 
-            //};
+            };
 
 
 
@@ -235,7 +239,7 @@ namespace Bond1
                             VerticalOptions = LayoutOptions.Center,
                             Orientation = StackOrientation.Horizontal,
                             Children = {
-                                secondgrid,//IpaEntry,SendIpa
+                                IpaEntry,SendIpa
                             }
                         },GetInfo
                 }
