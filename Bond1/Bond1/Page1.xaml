@@ -1,19 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Bond1.Page1">
+             x:Class="Bond1.Page1" BackgroundColor = "Purple">
+    
     <ContentPage.Content>
-        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical" Spacing="15">
+        
+        <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical" BackgroundColor = "Green" Spacing="15">
             <Image Source = "Resources/image/Menu.png"/>
-            
-            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="15">
-                <Label Text="This My IpAdress!" BackgroundColor="DarkGray"  HorizontalTextAlignment = "Center"/>
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="20">
+                <Label Text="This My IpAdress!" BackgroundColor="DarkGray"/>
                 <Label Text="Enter a Phoneword:" />
             </StackLayout>
-            
-            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="15">
-                <Label Text="Enter a ServerIpAdress:" />
-                <Entry x:Name="phoneNumberText" Text="1-855-XAMARIN" />
+            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="15">
+                <Label Text="Enter a ServerIpAdress:" BackgroundColor = "Gray" HorizontalTextAlignment = "Center"/>
+                <Entry x:Name="phoneNumberText" Text="接続" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
