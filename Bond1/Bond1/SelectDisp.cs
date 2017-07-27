@@ -37,7 +37,7 @@ namespace Bond1
                 var Ans = await DisplayAlert("Selected", ((ToolbarItem)s).Text, "NO", "OK");
                 if (!Ans)
                 {
-                    Application.Current.MainPage = new Client();
+                    Application.Current.MainPage = new Page1();// Client();
                 }
             };
 
@@ -95,19 +95,19 @@ namespace Bond1
             async void ServerButton_Clicked(object sender, EventArgs e)
             {     // <-1
                 var Anser = await DisplayAlert("Selected", "Server Mode", "NO", "OK");
-                if (!Anser)
-                {
+                //if (!Anser)
+                //{
                     Application.Current.MainPage = new Server();
-                }    
+                //}    
            };
            
             async void ClientButton_Clicked(object sender, EventArgs e) 
            {     // <-1
-                var Ans = await DisplayAlert("Selected", "Client Mode", "NO", "OK"); 
-                if (!Ans) 
-                {
-                    Application.Current.MainPage = new Page1();// new Client();
-               }
+                var Ans = await DisplayAlert("Selected", "Client Mode", "NO", "OK");
+                //if (!Ans) 
+                //{
+                Application.Current.MainPage = new Page1();// Client();
+               //}
            };
 
             

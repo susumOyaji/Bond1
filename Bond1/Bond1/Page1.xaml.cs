@@ -14,7 +14,18 @@ namespace Bond1
     {
         public Page1()
         {
-            InitializeComponent();
+           InitializeComponent();
         }
+
+        private void ClientButton_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SendIpa_Clicked(object sender, EventArgs e)
+        {
+          
+        }
+
     }
 }

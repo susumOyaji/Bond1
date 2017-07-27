@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Bond1.Page1" BackgroundColor = "Purple">
+             x:Class="Bond1.Page1" BackgroundColor = "OrangeRed" Title="RelativeLayout Page">
     
     <ContentPage.Content>
         
-        <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical" BackgroundColor = "Green" Spacing="15">
+        <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical" Spacing="15">
             <Image Source = "Resources/image/Menu.png"/>
-            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="20">
-                <Label Text="This My IpAdress!" BackgroundColor="DarkGray"/>
-                <Label Text="Enter a Phoneword:" />
+            <StackLayout VerticalOptions="StartAndExpand" HeightRequest="30" HorizontalOptions="Start" Orientation="Horizontal" Spacing="5">
+                <Label Text="This My IpAdress!" TextColor="Black" BackgroundColor="DarkGray" WidthRequest="130" Margin="10, 0, 0, 0" HorizontalTextAlignment = "Center" VerticalTextAlignment="Center"/>
+                <Label Text="Enter a Phoneword:" TextColor="Black" BackgroundColor="DarkGray" Margin="10, 0, 5, 0" HorizontalTextAlignment = "Center" VerticalTextAlignment="Center"/>
             </StackLayout>
-            <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="15">
-                <Label Text="Enter a ServerIpAdress:" BackgroundColor = "Gray" HorizontalTextAlignment = "Center"/>
-                <Entry x:Name="phoneNumberText" Text="接続" />
+            <StackLayout VerticalOptions="StartAndExpand" HeightRequest="30" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="5">
+                <Label Text="ServerIpAdress:" BackgroundColor = "Gray" WidthRequest="130" Margin="10, 0, 5, 0"  HorizontalTextAlignment = "Center" VerticalTextAlignment="Center"/>
+                <Entry x:Name="phoneNumberText" BackgroundColor="White" Text="Entry" TextColor="Black"  HorizontalTextAlignment = "Center" WidthRequest="100"  Margin="10, 0, 5, 0"/>
+                <Button x:Name = "SendIpa" Clicked="SendIpa_Clicked" BackgroundColor="DarkGray" Text ="接続" TextColor="Red" FontSize="Medium" Rotation="-20" />
+                
+             </StackLayout>
+            <StackLayout>
+                <Frame WidthRequest="110"
+                    HeightRequest="80"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Padding="0"
+                    OutlineColor="#f00"
+                >
+                    <Label Text="Hello1" TextColor="#ff0" FontSize="20"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Frame>
+                <BoxView BackgroundColor="Black" HeightRequest="3" Margin="10,0,10,0"/>
+                <Editor  Text="Text Eria"  TextColor="Black" BackgroundColor="Yellow" VerticalOptions="Fill" HeightRequest="300" Margin="10"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
