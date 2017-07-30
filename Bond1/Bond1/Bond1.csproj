@@ -59,6 +59,8 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Resources\Images\Menu.png" />
+    <None Include="Resources\Images\icon.png" />
+    <None Include="Resources\Images\14.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Images\Manu.png" />
