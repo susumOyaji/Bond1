@@ -37,7 +37,7 @@ namespace Bond1
                 var Ans = await DisplayAlert("Selected", ((ToolbarItem)s).Text, "NO", "OK");
                 if (!Ans)
                 {
-                    Application.Current.MainPage = new Page1();// Client();
+                    Application.Current.MainPage = new Client();
                 }
             };
 
@@ -106,7 +106,7 @@ namespace Bond1
                 var Ans = await DisplayAlert("Selected", "Client Mode", "NO", "OK");
                 //if (!Ans) 
                 //{
-                Application.Current.MainPage = new Page1();// Client();
+                Application.Current.MainPage = new Client();
                //}
            };
 

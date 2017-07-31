@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Bond1.Page1" BackgroundColor = "Aqua" Title="RelativeLayout Page">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Bond1.Page1" BackgroundColor = "Gray" Title="RelativeLayout Page">
     <ContentPage.Content>
-    <StackLayout Orientation="Vertical">
-        <StackLayout Padding="0" HeightRequest="100" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center"> 
-           <Image Source = "Resources/image/14.png"  VerticalOptions="EndAndExpand"/>
-           <Label Text="Connecting" FontSize="25" TextColor="Black" FontAttributes="Bold" VerticalOptions="EndAndExpand" VerticalTextAlignment="Center"/>   
-        </StackLayout>
-        <StackLayout Padding="0">
-           <Label Text="MyIpAdress" TextColor="Black"  BackgroundColor="White"  VerticalOptions="Start" WidthRequest="200" HeightRequest="50" HorizontalOptions="Center"/>
-        </StackLayout>
-        <StackLayout HeightRequest="100" Orientation="Horizontal"  HorizontalOptions="Center">
-            <Label Text="Connect to"  TextColor="Black" FontSize="25" VerticalOptions="End" VerticalTextAlignment="Center"/>
-            <Image Source = "Resources/image/icon2.png"  VerticalOptions="End"/>
-        </StackLayout>
-        <StackLayout >
-            <Entry BackgroundColor="White" WidthRequest="200" HorizontalOptions="Center" />
-            <Button BackgroundColor="Gray" Text="Bonding" WidthRequest="100" HorizontalOptions="Center"/>
-        </StackLayout>    
-       
-            
+    <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center" >
+        
+           <Image Source = "Resources/image/Menu33.png"/>
+             
+
+        
     </StackLayout>    
     </ContentPage.Content>
 </ContentPage>

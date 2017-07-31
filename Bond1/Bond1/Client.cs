@@ -21,11 +21,11 @@ namespace Bond1
         public string ClientReturn()
         {
             // Imageビューの生成
-            var image = new Image { Aspect = Aspect.AspectFit };
-            image.Source = ImageSource.FromFile("Menu.png");
+            var image = new Image { Aspect = Aspect.Fill };
+            image.Source = ImageSource.FromFile("Menu15.png");
 
             ////さらに良いことに、暗黙の変換があるので、この行も機能します：
-            image.Source = "Menu.png";
+            image.Source = "Menu15.png";
 
 
 
@@ -225,23 +225,23 @@ namespace Bond1
                 BackgroundColor =Color.White,
                 Children = {
                         image,
-                        new StackLayout{
-                        HorizontalOptions = LayoutOptions.FillAndExpand,
-                            VerticalOptions = LayoutOptions.Center,
-                            Orientation = StackOrientation.Horizontal,
-                            //BackgroundColor =Color.Gray,
-                            Children = {
-                               MyIp,IpaDisp,
-                             }
-                        },
-                        new StackLayout{
-                        HorizontalOptions = LayoutOptions.FillAndExpand,
-                            VerticalOptions = LayoutOptions.Center,
-                            Orientation = StackOrientation.Horizontal,
-                            Children = {
-                                IpaEntry,SendIpa
-                            }
-                        },GetInfo
+                        //new StackLayout{
+                        //HorizontalOptions = LayoutOptions.FillAndExpand,
+                        //    VerticalOptions = LayoutOptions.Center,
+                        //    Orientation = StackOrientation.Horizontal,
+                        //    //BackgroundColor =Color.Gray,
+                        //    Children = {
+                        //       MyIp,IpaDisp,
+                        //     }
+                        //},
+                        //new StackLayout{
+                        //HorizontalOptions = LayoutOptions.FillAndExpand,
+                        //    VerticalOptions = LayoutOptions.Center,
+                        //    Orientation = StackOrientation.Horizontal,
+                        //    Children = {
+                        //        IpaEntry,SendIpa
+                        //    }
+                        //},GetInfo
                 }
 
               };

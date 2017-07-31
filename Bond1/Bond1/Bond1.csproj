@@ -60,7 +60,9 @@
     <None Include="packages.config" />
     <None Include="Resources\Images\Menu.png" />
     <None Include="Resources\Images\icon.png" />
-    <None Include="Resources\Images\14.png" />
+    <None Include="Resources\Images\Menu15.png" />
+    <None Include="Resources\Images\Menu14.png" />
+    <None Include="Resources\Images\Menu33.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Images\Manu.png" />
