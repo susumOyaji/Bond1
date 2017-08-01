@@ -3,9 +3,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Bond1.Page1" BackgroundColor = "Gray" Title="RelativeLayout Page">
     <ContentPage.Content>
-    <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center" >
+    <StackLayout Orientation="Vertical" >
         
-           <Image Source = "Resources/image/Menu33.png"/>
+           <Image Source = "Resources/image/MenuSampl.png"/>
              
 
         

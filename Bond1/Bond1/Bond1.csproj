@@ -63,6 +63,7 @@
     <None Include="Resources\Images\Menu15.png" />
     <None Include="Resources\Images\Menu14.png" />
     <None Include="Resources\Images\Menu33.png" />
+    <None Include="Resources\Images\MenuSampl.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Images\Manu.png" />
