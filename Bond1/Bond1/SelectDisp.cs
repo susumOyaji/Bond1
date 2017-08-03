@@ -75,12 +75,12 @@ namespace Bond1
 
             Button ClientButton = new Button()
             {
-                Text = "Mode tp Client",
+                Text = "Mode to Client",
                 WidthRequest = 180,
             };
             ClientButton.Clicked += ClientButton_Clicked;
-
-
+           
+           
 
             Label CommentDisp = new Label()
             {
@@ -287,27 +287,23 @@ namespace Bond1
         public void PopUp()
         {
             var label = new Label();
-            var plainTextButton = new Button { Text = "Show plain text dialog" };
-            var passwordButton = new Button { Text = "Show password dialog" };
-
+            var plainTextButton = new Button { Text = "Show Adress Set Up dialog" };
+           
             plainTextButton.Clicked += async (sender, e) => {
-                var result = await DependencyService.Get<IEntryAlertService>().Show("Prain text", "Please enter text.", "OK", "Cancel", false);
+                var result = await DependencyService.Get<IEntryAlertService>().Show("Client Mode!", "Please enter Server IpAdress", "OK", "Cancel", false);
                 label.Text = string.Format("{0}:{1}", result.PressedButtonTitle, result.Text);
-                /*Application.Current.MainPage =*/Client Result =  new Client();
-                Result.ClientReturn(result.Text);
+                Application.Current.MainPage =  new Client(result.Text);
+
             };
 
-            passwordButton.Clicked += async (sender, e) => {
-                var result = await DependencyService.Get<IEntryAlertService>().Show("Password", "Please enter password.", "OK", "Cancel", true);
-                label.Text = string.Format("{0}:{1}", result.PressedButtonTitle, result.Text);
-            };
+
 
             Content = new StackLayout
             {
                 Orientation = StackOrientation.Vertical,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
-                Children = { label, plainTextButton, passwordButton }
+                Children = { label, plainTextButton,}
             };
         }
     }

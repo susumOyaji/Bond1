@@ -12,10 +12,10 @@ namespace Bond1
     {
         //string Model;
 
-        public Client()
+        public Client(string result)
         {
             BackgroundColor = Color.Aqua;
-            //ClientReturn();
+            ClientReturn(result);
         }
 
 
@@ -85,18 +85,7 @@ namespace Bond1
 
 
 
-            Button SendIpa = new Button
-            {
-                Margin = new Thickness(10, 0, 10, 0),
-                Text = "接続",
-                TextColor = Color.Black,
-                BackgroundColor = Color.Gray,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
-                //WidthRequest = 100,
-                HeightRequest = 50
-
-            };
-
+           
 
 
             Label GetInfo = new Label
@@ -111,6 +100,20 @@ namespace Bond1
                 //WidthRequest = 50,
                 //HeightRequest = 100
             };
+
+            Button SendIpa = new Button
+            {
+                Margin = new Thickness(10, 0, 10, 0),
+                Text = "接続",
+                TextColor = Color.Black,
+                BackgroundColor = Color.Gray,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                //WidthRequest = 100,
+                HeightRequest = 50
+
+            };
+            SendIpa.Clicked += SendIpaButton_Clicked;
+
 
 
 
