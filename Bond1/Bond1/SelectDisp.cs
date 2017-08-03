@@ -31,27 +31,27 @@ namespace Bond1
             BackgroundColor = Color.OrangeRed;
 
            
-            var menu1 = new ToolbarItem { Text = "Client" };
-            menu1.Clicked += async (s, a) =>
-            {     // <-1
-                var Ans = await DisplayAlert("Selected", ((ToolbarItem)s).Text, "NO", "OK");
-                if (!Ans)
-                {
-                    Application.Current.MainPage = new Client();
-                }
-            };
+            //var menu1 = new ToolbarItem { Text = "Client" };
+            //menu1.Clicked += async (s, a) =>
+            //{     // <-1
+            //    var Ans = await DisplayAlert("Selected", ((ToolbarItem)s).Text, "NO", "OK");
+            //    if (!Ans)
+            //    {
+            //        Application.Current.MainPage = new Client();
+            //    }
+            //};
 
-            ToolbarItems.Add(menu1);
-              var menu2 = new ToolbarItem { Text = "Server" };
-            menu2.Clicked += async (s, a) =>
-            {     // <-1
-                var Ans = await DisplayAlert("Selected", ((ToolbarItem)s).Text, "NO", "OK");
-                if (!Ans)
-                {
-                    Application.Current.MainPage = new Server();
-                }
-            };
-            ToolbarItems.Add(menu2);
+            //ToolbarItems.Add(menu1);
+            //  var menu2 = new ToolbarItem { Text = "Server" };
+            //menu2.Clicked += async (s, a) =>
+            //{     // <-1
+            //    var Ans = await DisplayAlert("Selected", ((ToolbarItem)s).Text, "NO", "OK");
+            //    if (!Ans)
+            //    {
+            //        Application.Current.MainPage = new Server();
+            //    }
+            //};
+            //ToolbarItems.Add(menu2);
 
 
 
@@ -103,10 +103,13 @@ namespace Bond1
            
             async void ClientButton_Clicked(object sender, EventArgs e) 
            {     // <-1
-                var Ans = await DisplayAlert("Selected", "Client Mode", "NO", "OK");
+
+                PopUp();
+
+                //var Ans = await DisplayAlert("Selected", "Client Mode", "NO", "OK");
                 //if (!Ans) 
                 //{
-                Application.Current.MainPage = new Client();
+                //Application.Current.MainPage = new Client();
                //}
            };
 
@@ -280,10 +283,44 @@ namespace Bond1
             //Content = SelectDisp;
 
         }
+
+        public void PopUp()
+        {
+            var label = new Label();
+            var plainTextButton = new Button { Text = "Show plain text dialog" };
+            var passwordButton = new Button { Text = "Show password dialog" };
+
+            plainTextButton.Clicked += async (sender, e) => {
+                var result = await DependencyService.Get<IEntryAlertService>().Show("Prain text", "Please enter text.", "OK", "Cancel", false);
+                label.Text = string.Format("{0}:{1}", result.PressedButtonTitle, result.Text);
+                /*Application.Current.MainPage =*/Client Result =  new Client();
+                Result.ClientReturn(result.Text);
+            };
+
+            passwordButton.Clicked += async (sender, e) => {
+                var result = await DependencyService.Get<IEntryAlertService>().Show("Password", "Please enter password.", "OK", "Cancel", true);
+                label.Text = string.Format("{0}:{1}", result.PressedButtonTitle, result.Text);
+            };
+
+            Content = new StackLayout
+            {
+                Orientation = StackOrientation.Vertical,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                Children = { label, plainTextButton, passwordButton }
+            };
+        }
     }
+}
+
+
+
+
+
+    
 
                          
- }
+ 
 
     
       
