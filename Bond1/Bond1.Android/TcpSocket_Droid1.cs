@@ -29,6 +29,23 @@ namespace Bond1.Droid
         public TcpSocket_Droid1(){ }
 
 
+        //public class MyButton : Button { }
+
+       
+
+        //public class MyButtonRenderer : ButtonRenderer
+        //{
+        //    protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.Button> e)
+        //    {
+        //        base.OnElementChanged(e);
+        //        var button = this.Control;
+        //        button.SetAllCaps(false);
+        //    }
+        //}
+
+
+
+
         public void SeverIpadressSet(string Adr,int Port)
         {
 

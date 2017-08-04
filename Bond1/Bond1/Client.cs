@@ -129,7 +129,7 @@ namespace Bond1
                         new StackLayout{
                         HorizontalOptions = LayoutOptions.FillAndExpand,
                             VerticalOptions = LayoutOptions.Center,
-                            Orientation = StackOrientation.Horizontal,
+                            Orientation = StackOrientation.Vertical,
                             //BackgroundColor =Color.Gray,
                             Children = {
                                MyIp,IpaDisp,

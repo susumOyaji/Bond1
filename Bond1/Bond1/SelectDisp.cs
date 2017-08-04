@@ -65,6 +65,12 @@ namespace Bond1
             image.Source = "Menu2.png";
 
 
+            //Button button = new Button(this.getActivity());
+            //button.setText(test.getLabel());
+            //button.setAllCaps(false);
+            //layout.addView(button);
+
+
             Button ServerButton = new Button()
             {
                 Text = "Mode to Server",
