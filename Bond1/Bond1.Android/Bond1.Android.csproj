@@ -161,6 +161,9 @@
     <AndroidResource Include="Resources\drawable\Menu33.png" />
     <AndroidResource Include="Resources\drawable\Menu15.png" />
     <AndroidResource Include="Resources\drawable\MenuSampl.png" />
+    <AndroidResource Include="Resources\drawable\OR.png" />
+    <AndroidResource Include="Resources\drawable\Client.png" />
+    <AndroidResource Include="Resources\drawable\Server.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

@@ -15,6 +15,7 @@ namespace Bond1
 
         public Server()
         {
+            BackgroundColor = Color.LightSeaGreen;
             ServerReturn();
         }
 
@@ -22,11 +23,11 @@ namespace Bond1
         public void ServerReturn()
         {
             // Imageビューの生成
-            var image = new Image { Aspect = Aspect.AspectFit };
-            image.Source = ImageSource.FromFile("Menu.png");
+            var Serverimage = new Image { Aspect = Aspect.AspectFit };
+            Serverimage.Source = ImageSource.FromFile("Server.png");
 
             ////さらに良いことに、暗黙の変換があるので、この行も機能します：
-            image.Source = "Menu.png";
+            Serverimage.Source = "Server.png";
 
 
 
@@ -68,32 +69,38 @@ namespace Bond1
             };
 
 
-
-
-            StackLayout ServerDisp = new StackLayout()
-            {
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Start,
-                Orientation = StackOrientation.Vertical,
-                //BackgroundColor =Color.Gray,
-                Children = {
-                        image,
-                    new StackLayout
-                    {
-                        HorizontalOptions = LayoutOptions.Center,
-                        VerticalOptions = LayoutOptions.StartAndExpand,
-                        Orientation = StackOrientation.Vertical,
-                        //BackgroundColor =Color.Gray,
-                        Children = {
-                            ServerIpaDisp,
-                            ServerState,
-                            labelLatLon
-                        }
-                    }
-                }
-            };
-            Content = ServerDisp;
            
+            AbsoluteLayout absoluteLayout = new AbsoluteLayout
+            {
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+
+
+            // ラベルを配置
+            absoluteLayout.Children.Add(Serverimage);
+            absoluteLayout.Children.Add(ServerIpaDisp);
+            absoluteLayout.Children.Add(ServerState); // 中心
+            absoluteLayout.Children.Add(labelLatLon);
+           
+
+            // 中心
+            AbsoluteLayout.SetLayoutFlags(Serverimage, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(Serverimage, new Rectangle(0.5, 0.1, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+
+            AbsoluteLayout.SetLayoutFlags(ServerIpaDisp, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(ServerIpaDisp, new Rectangle(0.5, 0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+
+            AbsoluteLayout.SetLayoutFlags(ServerState, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(ServerState, new Rectangle(0.5, 0.6, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+
+            AbsoluteLayout.SetLayoutFlags(labelLatLon, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(labelLatLon, new Rectangle(0.5, 0.7, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+
+          
+            // absoluteLayoutを配置
+            Content = absoluteLayout;
+            //Content = SelectDisp;
+            //Content = ClientDisp;
 
 
             //string network = DependencyService.Get<ITcpSocket1>().SeverToReceive();

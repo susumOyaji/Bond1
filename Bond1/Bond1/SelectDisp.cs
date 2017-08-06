@@ -31,303 +31,107 @@ namespace Bond1
             BackgroundColor = Color.OrangeRed;
 
            
-            //var menu1 = new ToolbarItem { Text = "Client" };
-            //menu1.Clicked += async (s, a) =>
-            //{     // <-1
-            //    var Ans = await DisplayAlert("Selected", ((ToolbarItem)s).Text, "NO", "OK");
-            //    if (!Ans)
-            //    {
-            //        Application.Current.MainPage = new Client();
-            //    }
-            //};
-
-            //ToolbarItems.Add(menu1);
-            //  var menu2 = new ToolbarItem { Text = "Server" };
-            //menu2.Clicked += async (s, a) =>
-            //{     // <-1
-            //    var Ans = await DisplayAlert("Selected", ((ToolbarItem)s).Text, "NO", "OK");
-            //    if (!Ans)
-            //    {
-            //        Application.Current.MainPage = new Server();
-            //    }
-            //};
-            //ToolbarItems.Add(menu2);
-
+          
 
 
             DateTime time = DateTime.Now;//new System.DateTime("yyyy", 1, 1, 0, 0, 0, 0);
 
             // Imageビューの生成
-            var image = new Image { Aspect = Aspect.AspectFit };
-            image.Source = ImageSource.FromFile("Menu2.png");
+            var Serverimage = new Image { Aspect = Aspect.AspectFit };
+            var ORimage = new Image { Aspect = Aspect.AspectFill };
+            var Clientimage = new Image { Aspect = Aspect.AspectFit };
+
+            Serverimage.Source = ImageSource.FromFile("Server.png");
+            ORimage.Source = ImageSource.FromFile("OR.png");
+            Clientimage.Source = ImageSource.FromFile("Client.png");
             
             ////さらに良いことに、暗黙の変換があるので、この行も機能します：
-            image.Source = "Menu2.png";
+            Serverimage.Source = "Server.png";
+            ORimage.Source = "OR.png";
+            Clientimage.Source = "Client.png";
 
+            var tgrserver = new TapGestureRecognizer();
+            tgrserver.Tapped += (sender, e) => OnServerimageClicked(sender,e);
+            Serverimage.GestureRecognizers.Add(tgrserver);
 
+            var tgrclient = new TapGestureRecognizer();
+            tgrclient.Tapped += (sender, e) => OnClientimageClicked(sender, e);
+            Clientimage.GestureRecognizers.Add(tgrclient);
+          
+
+           
+           
             //Button button = new Button(this.getActivity());
             //button.setText(test.getLabel());
             //button.setAllCaps(false);
             //layout.addView(button);
 
 
-            Button ServerButton = new Button()
-            {
-                Text = "Mode to Server",
-                WidthRequest = 180,
-            };
-            ServerButton.Clicked +=  ServerButton_Clicked;
-
-
-            Button ClientButton = new Button()
-            {
-                Text = "Mode to Client",
-                WidthRequest = 180,
-            };
-            ClientButton.Clicked += ClientButton_Clicked;
-           
-           
+          
 
             Label CommentDisp = new Label()
             {
-                Text = "\nClient Mode or Server Mode Select\nServer to priSetup to Go",
+                Text = "\nTap either Client Mode or Server Mode\n",
                 FontSize = 20,
-                //BackgroundColor = Color.White,
-                TextColor = Color.Black,
+               TextColor = Color.Black,
                 //WidthRequest = 180,
                 //HeightRequest = 40,
             };
 
-            async void ServerButton_Clicked(object sender, EventArgs e)
-            {     // <-1
-                var Anser = await DisplayAlert("Selected", "Server Mode", "NO", "OK");
-                //if (!Anser)
-                //{
-                    Application.Current.MainPage = new Server();
-                //}    
-           };
-           
-            async void ClientButton_Clicked(object sender, EventArgs e) 
-           {     // <-1
-
-                PopUp();
-
-                //var Ans = await DisplayAlert("Selected", "Client Mode", "NO", "OK");
-                //if (!Ans) 
-                //{
-                //Application.Current.MainPage = new Client();
-               //}
-           };
-
-            
 
 
-            StackLayout SelectDisp = new StackLayout()
+            void OnServerimageClicked(object sender, EventArgs e)
             {
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Start,
-                Orientation = StackOrientation.Vertical,
-                //BackgroundColor =Color.Gray,
-                Children = {
-                        image,
-                    new StackLayout
-                    {
-                        HorizontalOptions = LayoutOptions.Center,
-                        VerticalOptions = LayoutOptions.StartAndExpand,
-                        Orientation = StackOrientation.Vertical,
-                        //BackgroundColor =Color.Gray,
-                        Children = {
-                            new StackLayout
-                            {
-                                HorizontalOptions = LayoutOptions.Center,
-                                VerticalOptions = LayoutOptions.Start,
-                                Orientation = StackOrientation.Horizontal,
-                                Children ={
-                                    ServerButton,
-                                    ClientButton,
-                                    //layout
-                                }
-                               
-                            },
-                             CommentDisp//IpaEntry,SendIpa
-                        }
-                    }
-                }
-            };
+                //var result = await DependencyService.Get<IEntryAlertService>().Show("Server Mode!", "Please enter Server IpAdress", "OK", "Cancel", false);
+                Application.Current.MainPage = new Server();
+            }
 
+            async void OnClientimageClicked(object sender, EventArgs e)
+            {
+               var result = await DependencyService.Get<IEntryAlertService>().Show("Client Mode!", "Please enter Server IpAdress", "OK", "Cancel", false);
+               Application.Current.MainPage = new Client(result.Text);
+            }
 
 
 
 
             AbsoluteLayout absoluteLayout = new AbsoluteLayout
             {
-                VerticalOptions = LayoutOptions.StartAndExpand//.FillAndExpand
+                VerticalOptions = LayoutOptions.FillAndExpand
             };
 
-            // Labelを生成する
-            Label label = new Label
-            {
-                Text = "中心(0.5,0.5)",
-                FontSize = 22,
-                TextColor = Color.Yellow,
-            };
-
-            // Labelを生成する
-            Label label1 = new Label
-            {
-                Text = "左上(0,0)",
-                FontSize = 24,
-                TextColor = Color.Yellow,
-            };
-
-            // Labelを生成する
-            Label label2 = new Label
-            {
-                Text = "右上(1,0)",
-                FontSize = 24,
-                TextColor = Color.Yellow,
-            };
-
-            // Labelを生成する
-            Label label3 = new Label
-            {
-                Text = "左下(0,1)",
-                FontSize = 24,
-                TextColor = Color.Yellow,
-            };
-
-            // Labelを生成する
-            Label label4 = new Label
-            {
-                Text = "右下(1,1)",
-                FontSize = 24,
-                TextColor = Color.Yellow,
-            };
-
-            // Labelを生成する
-            Label label01 = new Label
-            {
-                Text = "上(0.5,0)",
-                FontSize = 24,
-                TextColor = Color.Yellow,
-            };
-
-            // Labelを生成する
-            Label label02 = new Label
-            {
-                Text = "左中心(0,0.5)",
-                FontSize = 22,
-                TextColor = Color.Yellow,
-            };
-
-            // Labelを生成する
-            Label label03 = new Label
-            {
-                Text = "右中心(1,0.5)",
-                FontSize = 22,
-                TextColor = Color.Yellow,
-            };
-
-            // Labelを生成する
-            Label label04 = new Label
-            {
-                Text = "下(0.5,1)",
-                FontSize = 24,
-                TextColor = Color.Yellow,
-            };
-
+       
             // ラベルを配置
-            absoluteLayout.Children.Add(image/* label*/); // 中心
-            absoluteLayout.Children.Add(label1); // 左上
-            absoluteLayout.Children.Add(label2); // 右上
-            absoluteLayout.Children.Add(label3); // 左下
-            absoluteLayout.Children.Add(label4); // 右下
+            absoluteLayout.Children.Add(Serverimage/* label*/);
+            absoluteLayout.Children.Add(ORimage/* label*/); // 中心
+            absoluteLayout.Children.Add(Clientimage/* label*/);
+            absoluteLayout.Children.Add(CommentDisp);
 
-            absoluteLayout.Children.Add(label01); // 上
-            absoluteLayout.Children.Add(ServerButton/*label02*/); // 左中心
-            absoluteLayout.Children.Add(ClientButton/*label03*/); // 右中心
-            absoluteLayout.Children.Add(label04); // 下
-
-            // 左上
-            AbsoluteLayout.SetLayoutFlags(label1, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(label1, new Rectangle(0, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-
-            // 上
-            AbsoluteLayout.SetLayoutFlags(label01, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(label01, new Rectangle(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-
-            // 右上
-            AbsoluteLayout.SetLayoutFlags(label2, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(label2, new Rectangle(1, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-
-            // 左中心
-            AbsoluteLayout.SetLayoutFlags(ServerButton/*label02*/, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(ServerButton/* label02*/, new Rectangle(0, 0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+           
 
             // 中心
-            AbsoluteLayout.SetLayoutFlags(image/* label*/, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(image/* label*/, new Rectangle(0.5, 0.0, 350/*AbsoluteLayout.AutoSize*/, 350/*AbsoluteLayout.AutoSize*/));
+            AbsoluteLayout.SetLayoutFlags(Serverimage, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(Serverimage, new Rectangle(0.1, 0.3, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
-            // 右中心
-            AbsoluteLayout.SetLayoutFlags(ClientButton/*label03*/, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(ClientButton/*label03*/, new Rectangle(1.0, 0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            // 中心
+            AbsoluteLayout.SetLayoutFlags(ORimage/* label*/, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(ORimage/* label*/, new Rectangle(0.5, 0.3, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
-            // 左下
-            AbsoluteLayout.SetLayoutFlags(label3, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(label3, new Rectangle(0, 1, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            // 中心
+            AbsoluteLayout.SetLayoutFlags(Clientimage, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(Clientimage, new Rectangle(0.9, 0.3, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
             // 下
-            AbsoluteLayout.SetLayoutFlags(label04, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(label04, new Rectangle(0.5, 1, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            AbsoluteLayout.SetLayoutFlags(CommentDisp, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(CommentDisp, new Rectangle(0.1, 0.8, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
-            // 右下
-            AbsoluteLayout.SetLayoutFlags(label4, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(label4, new Rectangle(1, 1, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
             // absoluteLayoutを配置
             Content = absoluteLayout;
-            //Content = SelectDisp;
-
-        }
-
-        public void PopUp()
-        {
-            var label = new Label();
-            var plainTextButton = new Button { Text = "Show Adress Set Up dialog" };
            
-            plainTextButton.Clicked += async (sender, e) => {
-                var result = await DependencyService.Get<IEntryAlertService>().Show("Client Mode!", "Please enter Server IpAdress", "OK", "Cancel", false);
-                label.Text = string.Format("{0}:{1}", result.PressedButtonTitle, result.Text);
-                Application.Current.MainPage =  new Client(result.Text);
-
-            };
-
-
-
-            Content = new StackLayout
-            {
-                Orientation = StackOrientation.Vertical,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
-                Children = { label, plainTextButton,}
-            };
         }
+
+       
     }
 }
-
-
-
-
-
-    
-
-                         
- 
-
-    
-      
-
-
-
-
 

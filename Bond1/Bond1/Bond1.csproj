@@ -64,6 +64,9 @@
     <None Include="Resources\Images\Menu14.png" />
     <None Include="Resources\Images\Menu33.png" />
     <None Include="Resources\Images\MenuSampl.png" />
+    <None Include="Resources\Images\OR.png" />
+    <None Include="Resources\Images\Client.png" />
+    <None Include="Resources\Images\Server.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Images\Manu.png" />
